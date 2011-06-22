@@ -1,0 +1,54 @@
+<div id="left_column">
+<strong>Lunch stress simulation:</strong><br/><br/>
+
+	Addr: <%= text_field_tag :address %><br/>
+	Port: <%= text_field_tag :port %><br/>
+	Output:&nbsp; <%= text_field_tag :output %><br/>
+	Type: <%= select_tag "type", "<option>xml</option><option>dot</option>" %><br/><br/>
+	<button onclick="lunch_simulation();">Lunch!</button>
+	<br/><br/>
+	
+	<hr>
+	
+	<br/><br/>
+	<div id="validator_report">
+	</div>
+</div>
+<div id="right_column">
+	<div id="editor">
+	<%= render :partial => "editor" %>
+	</div>
+</div>
+<div id="console">
+	<h3 style="padding:5px; float:left;">Results:</h3><button style="float:right; margin:5px;" onclick="$('#console').hide('slide',{direction:'down'});">X</button>
+	<div id="console-text"></div>
+</div>
+
+
+
+<script>
+	setRowNumber();
+
+	function lunch_simulation(){
+		$.ajax({
+			type: 'post',
+			url: '/simulations/validate_before_simulation/',
+			data: ({content : $('#editor_textarea').val()}),
+			dataType: 'html',
+			success: function(data) {
+				if(data == "false"){
+					notify();
+					return false;
+				}else{
+					$.ajax({
+						type: 'post',
+						url: '/simulations/lunch_simulation/',
+						data: ({address : $("#address").val(), port : $("#port").val(), output : $("#output").val(), abnf : $("#editor_textarea").val(), type : $("#type").val()}),
+						dataType: 'html',
+						complete : function(){notify();}
+					});
+				}			
+			}
+		});
+	}
+</script>
