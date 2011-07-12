@@ -48,10 +48,10 @@ bool InjectState::increaseState(){
 TestCaseManager* TestCaseManager::_instance;
 
 TestCaseManager::TestCaseManager():last_frame(0){
-    if(Configurator::getInstance()->getMonitor()){
-	monitors.push_back( new Monitor() );
-	monitors.push_back( new RTTMonitor() );
-    }
+	if(Configurator::getInstance()->getMonitor()){
+		//monitors.push_back( new Monitor() );
+		monitors.push_back( new RTTMonitor() );
+	}
 };
 
 TestCaseManager::~TestCaseManager(){

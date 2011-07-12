@@ -37,7 +37,7 @@ AnomalyInjector::~AnomalyInjector() {
 bool AnomalyInjector::inject(Composite* root) {
 
     std::vector<Composite**>::iterator sons_iterator;
-	 std::vector<Composite**> datasons = root->getDataSons();
+	std::vector<Composite**> datasons = root->getDataSons();
     for (sons_iterator = datasons.begin(); 
 			sons_iterator != datasons.end(); 
 			sons_iterator++) {

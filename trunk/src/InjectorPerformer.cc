@@ -98,7 +98,8 @@ Composite* InjectorPerformer::inject(BinLeaf* leaf) {
 }
 
 Composite* InjectorPerformer::injectStringLeaf(StringLeaf* orig) {
-
+	if(trim(orig).size() == 0)
+		return orig;
     CompositeFactory* cfact = new CompositeFactory();
     std::ostringstream ooss(std::ostringstream::out);
     ooss << "or" << orCounter;
@@ -143,9 +144,15 @@ Composite* InjectorPerformer::stringInjectionMIDDLETERM(StringLeaf* orig, Compos
 
     Composite * anomaly = cf->getNode(generateAnomalyName(orig));
     std::string origName = trim(orig);
-
-
-    int insertPoint = 1 + (rand() % (origName.size() - 1));
+	int insertPoint = 0;
+	if(origName.size()>1)
+	    insertPoint = 1 + (rand() % (origName.size() - 1));
+	else if(origName.size()==1)
+		insertPoint = 1;
+	else{ 
+		(*anomaly) << (cf->getStringNode(addQuote(origName)));
+		return anomaly;
+	}
     std::cout << "Insert Point is " << insertPoint << " out of " << origName.size() << std::endl;
 
     (*anomaly) << (cf->getStringNode(addQuote(origName.substr(0, insertPoint))));

@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.63])
-AC_INIT([stress], [2.1.0], [matteo.rosi@unifi.it])
+AC_INIT(stress, 2.1.0, matteo.rosi@gmail.com)
 #AM_INIT_AUTOMAKE([stress], [2.1.0])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AC_CONFIG_SRCDIR([lib/composite_factory.cc])

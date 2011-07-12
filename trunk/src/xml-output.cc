@@ -25,6 +25,8 @@
 #include <string.h>
 #include <value-state.h>
 #include <value-hex-state.h>
+#include <send-packet-state.h>
+#include <read-packet-state.h>
 
 XMLOutput::XMLOutput() : AbstractOutput(){};
 
@@ -62,7 +64,9 @@ void XMLOutput::runTreeState(std::ostringstream* oss, State* s){
 		} 
 	}else */
 	if(ValueState* vs =dynamic_cast<ValueState*>(s)){
-		*oss << "<state id=\"" << s->getId() << "\" name=\"" <<  s->getName() <<"\" ";
+//		*oss << "<state id=\"" << s->getId() << "\" name=\"" <<  s->getName() <<"\" ";
+		*oss << "<" << vs->getTag();
+		*oss <<  " id=\"" << s->getId() << "\" name=\"" <<  s->getName() <<"\" ";
 		*oss << "type=\"" << s->getType() << "\" ";
 		*oss << "data=\""; 
 		*oss << vs->getValueForLog();

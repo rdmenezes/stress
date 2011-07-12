@@ -11,6 +11,7 @@
 #include<repeat-composite.h>
 #include<inject-action.h>
 #include<test-case-manager.h>
+#include <stdint.h>
 
 ActionFactory* ActionFactory::_instance;
 
@@ -28,6 +29,10 @@ ActionFactory* ActionFactory::getInstance(){
 
 uint64_t ActionFactory::getNextInjectionId(){
 	uint64_t n = next_injection_id;
+	if(n == UINT64_MAX){
+		std::cerr<< "Maximum number og fault reached!"<< std::endl;
+		return n;
+	}
 	next_injection_id <<=1;
 	return n;
 }

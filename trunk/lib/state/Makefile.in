@@ -52,7 +52,9 @@ libstate_a_LIBADD =
 am_libstate_a_OBJECTS = ok-state.$(OBJEXT) state.$(OBJEXT) \
 	fail-state.$(OBJEXT) value-state.$(OBJEXT) \
 	value-hex-state.$(OBJEXT) value-string-state.$(OBJEXT) \
-	value-int-state.$(OBJEXT) value-bin-state.$(OBJEXT)
+	value-int-state.$(OBJEXT) value-bin-state.$(OBJEXT) \
+	read-packet-state.$(OBJEXT) send-packet-state.$(OBJEXT) \
+	monitor-report.$(OBJEXT)
 libstate_a_OBJECTS = $(am_libstate_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -205,7 +207,13 @@ libstate_a_SOURCES = ok-state.cc \
 								value-int-state.h \
 								value-int-state.cc \
 								value-bin-state.h \
-								value-bin-state.cc 
+								value-bin-state.cc \
+								read-packet-state.h \
+								read-packet-state.cc \
+								send-packet-state.h \
+								send-packet-state.cc \
+								monitor-report.h \
+								monitor-report.cc
 
 libstate_a_HEADERS = ok-state.h \
 								state.h 
@@ -262,7 +270,10 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fail-state.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/monitor-report.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ok-state.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/read-packet-state.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/send-packet-state.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/state.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/value-bin-state.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/value-hex-state.Po@am__quote@
