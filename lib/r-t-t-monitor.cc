@@ -18,7 +18,7 @@
  */
 
 #include <r-t-t-monitor.h>
-#include <value-string-state.h>
+#include <monitor-report.h>
 #include <configurator.h>
 #include <sstream>
 #include <iostream>
@@ -32,7 +32,7 @@ State* RTTMonitor::getReport(){
 	boost::posix_time::time_duration rtt = stop - start;
 	double timeout = 2*Configurator::getInstance()->getDelay();
 	rtt = rtt - boost::posix_time::time_duration(boost::posix_time::milliseconds(timeout));
-	ValueStringState* res = new ValueStringState(0);
+	MonitorReport* res = new MonitorReport(0);
 	res->setName("Test Case Duration");
 	ss << rtt;
 	res->setStringValue(ss.str());
@@ -41,7 +41,7 @@ State* RTTMonitor::getReport(){
         std::vector<boost::posix_time::time_duration>::iterator it;
         for(it = rtts.begin(); it != rtts.end(); it++){
             ss.str("");
-            ValueStringState* r = new ValueStringState(0);
+            MonitorReport* r = new MonitorReport(0);
             r->setName("RTT Report");
             ss << (*it);
             r->setStringValue(ss.str());

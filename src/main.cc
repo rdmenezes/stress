@@ -31,8 +31,10 @@ int main(int argc, char* argv[]){
         ai->findSendComposite(tree, send_actions);
         
         std::vector<Composite*>::iterator sendRoot;
-		for(sendRoot = send_actions.begin(); sendRoot!= send_actions.end(); sendRoot++)
-			ai->inject( (*sendRoot) );
+		bool injected = true;
+		for(sendRoot = send_actions.begin(); sendRoot!= send_actions.end() && injected; sendRoot++){
+			injected = ai->inject( (*sendRoot) );
+		}
 		ai->write(tree);
 		send_actions.clear();
 	}

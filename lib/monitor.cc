@@ -2,7 +2,7 @@
 #include <iostream>
 #include <configurator.h>
 #include <vector>
-#include <value-string-state.h>
+#include <monitor-report.h>
 
 Monitor::Monitor() : 		io_service(), to_address(), receiver_endpoint(), 
 									sender_endpoint(), socket(io_service) 
@@ -102,7 +102,7 @@ void Monitor::finish_test(){
 };
 
 State* Monitor::getReport(){
-	State* res = new ValueStringState(0);
+	State* res = new MonitorReport(0);
 	res->setName("Report");
 	std::string s;	
 	std::string start_cmd("getreport\n");

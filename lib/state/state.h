@@ -48,6 +48,8 @@ class State{
 				(*it)->setName(s);
 		}
 		virtual std::string& getType() {return my_type;};
+		virtual const char* getTag() {return "state";};
+
 		virtual void printTree(std::ostringstream* oss){ printTestTree(oss); };
 
 		virtual std::vector<State*>& getSons(){ return derived_state; };

@@ -19,6 +19,7 @@
 
 #include "read-action.h"
 #include <value-string-state.h>
+#include <read-packet-state.h>
 #include <value-hex-state.h>
 #include <composite.h>
 #include <iostream>
@@ -48,7 +49,7 @@ State* ReadAction::runAction(Composite* c){
 		 n = socket->read(read_data);
 
 		 if(n>0){
-			  res = new ValueHexState(c->getId());
+			  res = new ReadPacketState(c->getId());
 			  TestCaseManager::getInstance()->sendNotificationPacketRead();
 
 			  std::cout << "Data Read " << std::dec << n <<" bytes: " ;
@@ -68,7 +69,8 @@ State* ReadAction::runAction(Composite* c){
 			  delete [] data;
 
 		 }else{
-			  res= new ValueStringState(c->getId());
+			  //res= new ValueStringState(c->getId());
+ 			  res= new ReadPacketState(c->getId());
 			  res->setName("No Packet Received");
 			  res->setFailValue();
 			  //std::vector<State*> result = runSonsAction(c);

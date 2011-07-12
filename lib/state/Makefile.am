@@ -13,7 +13,13 @@ libstate_a_SOURCES = 	ok-state.cc \
 								value-int-state.h \
 								value-int-state.cc \
 								value-bin-state.h \
-								value-bin-state.cc 
+								value-bin-state.cc \
+								read-packet-state.h \
+								read-packet-state.cc \
+								send-packet-state.h \
+								send-packet-state.cc \
+								monitor-report.h \
+								monitor-report.cc
 libstate_a_HEADERS = 	ok-state.h \
 								state.h 
 

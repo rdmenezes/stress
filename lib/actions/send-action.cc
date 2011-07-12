@@ -1,5 +1,6 @@
 #include <send-action.h>
-#include <value-string-state.h>
+//#include <value-string-state.h>
+#include <send-packet-state.h>
 #include <fail-state.h>
 #include <composite.h>
 #include <iostream>
@@ -48,7 +49,7 @@ State* SendAction::runAction(Composite* c){
 	int n = socket->send(data_to_send);
 	if(n){
             TestCaseManager::getInstance()->sendNotificationPacketSent();
-            res = new ValueStringState(c->getId());
+            res = new SendPacketState(c->getId());
             res->setName("Data sent");
             std::string s;
             s+="\\\"";
@@ -56,9 +57,12 @@ State* SendAction::runAction(Composite* c){
             s+="\\\"";
             //std::cout << "PROVA OUTPUT " << s <<std::endl;
             res->setStringValue(s);
-	}else
-            res= new FailState(c->getId());
-
+	}else{
+            //res= new FailState(c->getId());
+			res= new SendPacketState(c->getId());
+			res->setFailValue();
+	}
+		
 	*res << result;
 	res->setPacketValue();
 	return res;
