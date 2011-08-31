@@ -41,7 +41,12 @@ class SimulationsController < ApplicationController
 			raise Exceptions::InvalidPortProvided if params[:port].to_i < 1 or params[:port].to_i > 65535
 			File.open("script/temp2", "w") {|f| f.write(params[:abnf])}
 			Dir.mkdir("results/" + params[:output])
-			f = IO.popen("script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]}")
+			autoinjection = ""
+			if params[:autoinjection] == "true"
+				autoinjection = "-j1"
+			end
+			f = IO.popen("script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection}")
+			
 			#puts "script/stress -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/"
 			#stdin, stdout, stderr, exec = Open3.popen3('script/stress -a script/temp2 -d 127.0.0.1 -p 110 -o results/risultato.xml')
 			#f = IO.popen('script/test.sh')
