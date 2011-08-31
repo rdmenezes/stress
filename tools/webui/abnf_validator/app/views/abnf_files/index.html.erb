@@ -4,7 +4,8 @@
 	Addr: <%= text_field_tag :address %><br/>
 	Port: <%= text_field_tag :port %><br/>
 	Output:&nbsp; <%= text_field_tag :output %><br/>
-	Type: <%= select_tag "type", "<option>xml</option><option>dot</option>" %><br/><br/>
+	Type: <%= select_tag "type", "<option>xml</option><option>dot</option>" %><br/>
+	Auto-injection: <%= check_box_tag 'autoinjection' %><br/><br/>
 	<button onclick="lunch_simulation();">Lunch!</button>
 	<br/><br/>
 	
@@ -43,7 +44,7 @@
 					$.ajax({
 						type: 'post',
 						url: '/simulations/lunch_simulation/',
-						data: ({address : $("#address").val(), port : $("#port").val(), output : $("#output").val(), abnf : $("#editor_textarea").val(), type : $("#type").val()}),
+						data: ({address : $("#address").val(), port : $("#port").val(), output : $("#output").val(), abnf : $("#editor_textarea").val(), type : $("#type").val(), autoinjection : $("#autoinjection")[0].checked}),
 						dataType: 'html',
 						complete : function(){notify();}
 					});
