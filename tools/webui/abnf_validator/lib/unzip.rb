@@ -18,18 +18,32 @@ class UnZipThemAll
 		zip_file = Zip::ZipFile.open(self.zip_file_path)
 		
 		#CHECK IF PLUGIN ARCHIVE CONTAINS RIGHT FILES
+		xml_exists = false
+		app_dir_not_empty = false
+		
 		Zip::ZipFile.foreach(self.zip_file_path) do |entry|
-			file_path = File.join(self.to_folder_path, entry.to_s)
+			entry_name = entry.to_s
+			if entry_name == "app/#{@plugin_name}.xml"
+					xml_exists = true
+					next
+			end
+			if entry_name == "app/"
+				if !Dir["app/*"].empty?
+					app_dir_not_empty = true
+				end
+			end
+			file_path = File.join(self.to_folder_path, entry_name)
 			if entry.is_directory and !File.exists?(file_path)
 				good = false
-				good = true if entry.to_s == "app/views/#{@plugin_name}/" or entry.to_s.include?("lib/")
-				raise Exceptions::MalformedPlugin if good == "false"
-			elsif !entry.is_directory and (!entry.to_s.include?("views") or !entry.to_s.include?("lib/"))
+				good = true if entry_name == "app/views/#{@plugin_name}/" or entry_name.include?("lib/")
+				raise Exceptions::MalformedPlugin if good == false
+			elsif !entry.is_directory and !entry_name.include?("views") and !entry_name.include?("lib/")
 				good = false
-				good = true if entry == "app/controllers/#{@plugin_name}_controller.rb" or entry == "app/models/#{@plugin_name}.rb" or entry == "app/#{@plugin_name}.xml" or entry.to_s.include? "db/migrate"
-				raise Exceptions::MalformedPlugin if good == "false"
+				good = true if entry_name == "app/controllers/#{@plugin_name}_controller.rb" or entry_name == "app/models/#{@plugin_name}.rb" or entry_name.include? "db/migrate"
+				raise Exceptions::MalformedPlugin if good == false
 			end
 		end
+		raise Exceptions::MalformedPlugin if xml_exists == false or app_dir_not_empty == false
 		
 		#CREATE NEEDED DIRECTORY
 		Zip::ZipFile.foreach(self.zip_file_path) do |entry|
