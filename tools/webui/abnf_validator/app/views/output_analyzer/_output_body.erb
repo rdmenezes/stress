@@ -1,0 +1,24 @@
+<table width="98%">
+	<th style="text-align:center" width="20%"><%= link_to_remote "Stats",
+										{:url => { :controller => :output_analyzer, :action => :select_simulation, :output => @simulation_selected}, :update => "right_column"} %>
+	</th>
+	<th style="text-align:center" width="20%">RTT Stats</th>
+	<th style="text-align:center" width="20%">Anomaly type</th>
+	<th style="text-align:center" width="20%"><%= link_to_remote "Levenshtein distance",
+										{:url => { :controller => :output_analyzer, :action => :get_l_distance, :output => @simulation_selected}, :update => "output_analyzer_result"} %>
+	</th>
+	<th style="text-align:center" width="20%">Sanity check</th>
+	
+	<tr>
+	<td colspan="5">
+	<div id="output_analyzer_result">
+		<ul>
+		<% @files.each do |f| %>
+		<li><%= link_to_remote (f.split("/").last), {:url => { :controller => :simulations, :action => :show_file_content, :file => f}, :update => 	"right_column", :method => :post} %></li>
+		<%= f %>
+		<% end %>
+		</ul>
+	</div>
+	</td>
+	</tr>
+</table>
