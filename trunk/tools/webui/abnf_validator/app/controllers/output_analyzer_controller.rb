@@ -17,7 +17,16 @@ class OutputAnalyzerController < ApplicationController
 		@files = Dir.glob("results/#{params[:output]}/*")
 		@files.sort!{|x,y| x.split("/").last <=> y.split("/").last }
 		@simulation_selected=params[:output]
-		sleep 3
+		sims = Simulation.find_all_by_output(@simulation_selected)
+		simulation = sims.first
+		if simulation != nil and simulation.testcases.size == 0
+			xmlparser = XMLOutputParser.new
+			@files.each do |file|
+				#simulation.testcases << Testcase.new(:filename => file)
+				xmlparser.parse(simulation, file)
+			end
+			simulation.save
+		end
 		render :partial => "output_body"
 		#render :update do |page|
          # page.replace_html "right_column", :partial => 'output_body'
