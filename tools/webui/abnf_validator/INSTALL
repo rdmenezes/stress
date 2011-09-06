@@ -1,0 +1,4 @@
+gem: 	fattr 2.2.0
+		map	4.3.0
+		arrayfields	4.7.4
+		chronic 0.6.2

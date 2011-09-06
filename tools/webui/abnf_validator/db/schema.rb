@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110112161133) do
+ActiveRecord::Schema.define(:version => 20110906061708) do
 
   create_table "abnf_files", :force => true do |t|
     t.string   "name"
@@ -26,9 +26,71 @@ ActiveRecord::Schema.define(:version => 20110112161133) do
     t.string  "permissions"
   end
 
+  create_table "bj_config", :primary_key => "bj_config_id", :force => true do |t|
+    t.text "hostname"
+    t.text "key"
+    t.text "value"
+    t.text "cast"
+  end
+
+  create_table "bj_job", :primary_key => "bj_job_id", :force => true do |t|
+    t.text     "command"
+    t.text     "state"
+    t.integer  "priority"
+    t.text     "tag"
+    t.integer  "is_restartable"
+    t.text     "submitter"
+    t.text     "runner"
+    t.integer  "pid"
+    t.datetime "submitted_at"
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.text     "env"
+    t.text     "stdin"
+    t.text     "stdout"
+    t.text     "stderr"
+    t.integer  "exit_status"
+  end
+
+  create_table "bj_job_archive", :primary_key => "bj_job_archive_id", :force => true do |t|
+    t.text     "command"
+    t.text     "state"
+    t.integer  "priority"
+    t.text     "tag"
+    t.integer  "is_restartable"
+    t.text     "submitter"
+    t.text     "runner"
+    t.integer  "pid"
+    t.datetime "submitted_at"
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.datetime "archived_at"
+    t.text     "env"
+    t.text     "stdin"
+    t.text     "stdout"
+    t.text     "stderr"
+    t.integer  "exit_status"
+  end
+
+  create_table "frames", :force => true do |t|
+    t.string   "type"
+    t.integer  "testcase_id"
+    t.integer  "position"
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "libraries", :force => true do |t|
     t.string   "name"
     t.integer  "creator"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "monitorreports", :force => true do |t|
+    t.string   "type"
+    t.integer  "testcase_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -41,6 +103,15 @@ ActiveRecord::Schema.define(:version => 20110112161133) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "running"
+  end
+
+  create_table "testcases", :force => true do |t|
+    t.integer  "simulation_id"
+    t.string   "filename"
+    t.integer  "id_anomaly"
+    t.integer  "run"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
