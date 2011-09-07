@@ -38,6 +38,23 @@ class OutputAnalyzerController < ApplicationController
 		render :text => '<div style="clear:both;"></div> Calcolo della distanza di Levenshtein '+@simulation_selected.to_s
 	end
 	
+	def get_testcase_list
+		@simulation_selected=params[:output]
+		sims = Simulation.find_all_by_output(@simulation_selected)
+		@simulation = sims.first
+		render :partial => "testcase_list"
+	end
+	
+	def get_frames_list
+		@testcase = Testcase.find(params[:testcase_id])
+		render :partial => "frames_list" unless @testcase == nil
+	end
+	
+	def get_frame_content
+		@frame = Frame.find(params[:frame_id])
+		render :partial => "frame_content" unless @frame == nil
+	end
+	
 	def show_loading
 		render :partial => "loading"
 	end

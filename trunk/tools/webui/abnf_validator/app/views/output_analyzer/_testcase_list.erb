@@ -1,0 +1,16 @@
+<table width="98%">
+	<th style="text-align:center" width="20%">Testcase</th>
+	<th style="text-align:center" width="80%">Frame</th>
+	<tr>
+	<td id="testcase_name">
+	<ul>
+	<% @simulation.testcases.each do |testcase| %>
+
+	<li><%= link_to_remote testcase.printHTML,
+							{:url => { :controller => :output_analyzer, :action => :get_frames_list, :output => @simulation_selected, :testcase_id =>testcase.id}, :update => "frames"} %></li>
+	<% end %>
+	</ul>
+	</td>
+	<td id="frames"></td>
+	</tr>
+</table>
