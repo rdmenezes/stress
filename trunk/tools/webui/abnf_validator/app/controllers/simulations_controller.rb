@@ -45,13 +45,13 @@ class SimulationsController < ApplicationController
 			if params[:autoinjection] == "true"
 				autoinjection = "-j1"
 			end
-			f = IO.popen("script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection}")
-			
+      Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection}", :tag => "#{session[:username]},#{session[:editor_filename]},#{params[:output]}"
+			#f = IO.popen("script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection}")			
 			#puts "script/stress -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/"
 			#stdin, stdout, stderr, exec = Open3.popen3('script/stress -a script/temp2 -d 127.0.0.1 -p 110 -o results/risultato.xml')
 			#f = IO.popen('script/test.sh')
-			simulation = Simulation.new_simulation(f.pid, session[:username], session[:editor_filename], params[:output])
-			Process.detach(f.pid)
+			#simulation = Simulation.new_simulation(f.pid, session[:username], session[:editor_filename], params[:output])
+			#Process.detach(f.pid)
 			session[:messages] = {:type => "ok", :msg => "Simulation lauched!"}
 		rescue Exceptions::MissingParameters
 			session[:messages] = {:type => "err", :msg => "Address, port and output needed!"}
@@ -69,13 +69,17 @@ class SimulationsController < ApplicationController
 	
 	def delete_simulation
 		begin
-			simulation = Simulation.find(params[:id])
-			if simulation.running
-				system("kill -9 #{simulation.pid}")
-			end
-			Simulation.delete(params[:id])
-		  FileUtils.rm_rf 'results/'+simulation.output
+			Bj.table.job.delete(params[:id])
+		  FileUtils.rm_rf 'results/'+params[:output]
 		  session[:messages] = {:type => "ok", :msg => "Simulation deleted!"}
+		end
+		redirect_to :action => :update_simulations_list
+	end
+	
+	def stop_simulation
+		begin
+			exec("kill #{params[:pid]}")
+		  session[:messages] = {:type => "ok", :msg => "Simulation stopped!"}
 		end
 		redirect_to :action => :update_simulations_list
 	end
@@ -92,13 +96,13 @@ class SimulationsController < ApplicationController
 		render :partial => "file_content"
 	end
 	
-	def indent_output
-		file = File.new(params[:file], "r").read
-		content = file.split("\n")
-		@file_content = indent(content)
-		@file_name = params[:file]
-		render :partial => "file_content"
-	end
+#	def indent_output
+#		file = File.new(params[:file], "r").read
+#		content = file.split("\n")
+#		@file_content = indent(content)
+#		@file_name = params[:file]
+#		render :partial => "file_content"
+#	end
 	
 	private
 	
@@ -111,40 +115,41 @@ class SimulationsController < ApplicationController
 	end
 	
 	def check_running_simulations
-		simulations = Simulation.find(:all)
-			simulations.each do |s|
-				if s.running
-					running = File.exist? "/proc/#{s.pid}"
-					s.update_attributes(:running => running)
-				end
-			end
+#		simulations = Simulation.find(:all)
+#			simulations.each do |s|
+#				if s.running
+#					running = File.exist? "/proc/#{s.pid}"
+#					s.update_attributes(:running => running)
+#				end
+#			end
 		time = Time.now
 		@updated_at = time.strftime("%H:%M:%S")
-		return Simulation.find_all_by_username(session[:username])
+#		return Simulation.find_all_by_username(session[:username])
+		return Bj.list
 	end
 	
-	def indent(content)
-		@offset = ""
-		@file_content = ""
-		@first_line = true
-		content.each do |line|
-			if @first_line
-				@file_content += line.strip+"\n"
-				@first_line = false
-			elsif line.strip.match(/^[<]{1}[t]{1}.*/) and line.strip.match(/[^\/>]{2}$/)
-				@file_content += @offset+line.strip+"\n"
-				@offset += "\ \ "
-			elsif line.strip.match(/^[<]{1}[s]{1}.*/)
-				@file_content += @offset+line.strip+"\n"
-				@offset += "\ \ "
-			elsif line.strip.match(/^[<]{1}[\/]{1}.*/)
-				@offset = @offset.chomp "\ \ "
-				@file_content += @offset+line.strip+"\n"
-			else
-				@file_content += @offset+line.strip+"\n"
-			end
-		end
-		return @file_content
-	end
+#	def indent(content)
+#		@offset = ""
+#		@file_content = ""
+#		@first_line = true
+#		content.each do |line|
+#			if @first_line
+#				@file_content += line.strip+"\n"
+#				@first_line = false
+#			elsif line.strip.match(/^[<]{1}[t]{1}.*/) and line.strip.match(/[^\/>]{2}$/)
+#				@file_content += @offset+line.strip+"\n"
+#				@offset += "\ \ "
+#			elsif line.strip.match(/^[<]{1}[s]{1}.*/)
+#				@file_content += @offset+line.strip+"\n"
+#				@offset += "\ \ "
+#			elsif line.strip.match(/^[<]{1}[\/]{1}.*/)
+#				@offset = @offset.chomp "\ \ "
+#				@file_content += @offset+line.strip+"\n"
+#			else
+#				@file_content += @offset+line.strip+"\n"
+#			end
+#		end
+#		return @file_content
+#	end
 
 end
