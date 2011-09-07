@@ -45,7 +45,7 @@ class XMLTestcase < Nokogiri::XML::SAX::Document
 				read = p.second if p.first =="name"
 				data = p.second if p.first =="data"
 			end
-			if read == "Data Received"
+			if read == "Data received" 
 				@testcase.frames << ReadFrame.new(:data => data, :position => position) 
 			else
 				@testcase.frames << NoResponse.new(:position => position)
