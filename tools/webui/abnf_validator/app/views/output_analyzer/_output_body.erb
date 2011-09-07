@@ -1,16 +1,21 @@
 <table width="98%">
-	<th style="text-align:center" width="20%"><%= link_to_remote "Stats",
-										{:url => { :controller => :output_analyzer, :action => :select_simulation, :output => @simulation_selected}, :update => "right_column"} %>
+	<th style="text-align:center" width="15%">
+		<%= link_to_remote "Stats",
+							{:url => { :controller => :output_analyzer, :action => :select_simulation, :output => @simulation_selected}, :update => "right_column"} %>
 	</th>
-	<th style="text-align:center" width="20%">RTT Stats</th>
-	<th style="text-align:center" width="20%">Anomaly type</th>
-	<th style="text-align:center" width="20%"><%= link_to_remote "Levenshtein distance",
+	<th style="text-align:center" width="15%">
+		<%= link_to_remote "Testcase list",
+							{:url => { :controller => :output_analyzer, :action => :get_testcase_list, :output => @simulation_selected}, :update => "output_analyzer_result"} %>
+	</th>
+	<th style="text-align:center" width="15%">RTT Stats</th>
+	<th style="text-align:center" width="15%">Anomaly type</th>
+	<th style="text-align:center" width="15%"><%= link_to_remote "Levenshtein distance",
 										{:url => { :controller => :output_analyzer, :action => :get_l_distance, :output => @simulation_selected}, :update => "output_analyzer_result"} %>
 	</th>
-	<th style="text-align:center" width="20%">Sanity check</th>
+	<th style="text-align:center" width="15%">Sanity check</th>
 	
 	<tr>
-	<td colspan="5">
+	<td colspan="6">
 	<div id="output_analyzer_result">
 		<ul>
 		<% @files.each do |f| %>
