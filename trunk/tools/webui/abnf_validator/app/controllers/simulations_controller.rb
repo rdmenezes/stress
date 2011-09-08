@@ -45,12 +45,13 @@ class SimulationsController < ApplicationController
 			if params[:autoinjection] == "true"
 				autoinjection = "-j1"
 			end
-      Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection}", :tag => "#{session[:username]},#{session[:editor_filename]},#{params[:output]}"
+      process = Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection}", :tag => "#{session[:username]},#{session[:editor_filename]},#{params[:output]}"
+      pid = process[0].pid
 			#f = IO.popen("script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection}")			
 			#puts "script/stress -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/"
 			#stdin, stdout, stderr, exec = Open3.popen3('script/stress -a script/temp2 -d 127.0.0.1 -p 110 -o results/risultato.xml')
 			#f = IO.popen('script/test.sh')
-			#simulation = Simulation.new_simulation(f.pid, session[:username], session[:editor_filename], params[:output])
+			simulation = Simulation.new_simulation(pid, session[:username], session[:editor_filename], params[:output])
 			#Process.detach(f.pid)
 			session[:messages] = {:type => "ok", :msg => "Simulation lauched!"}
 		rescue Exceptions::MissingParameters
