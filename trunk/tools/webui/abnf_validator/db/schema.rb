@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110906061708) do
+ActiveRecord::Schema.define(:version => 20110908092401) do
 
   create_table "abnf_files", :force => true do |t|
     t.string   "name"
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(:version => 20110906061708) do
     t.text     "data"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "l_distance"
   end
 
   create_table "libraries", :force => true do |t|

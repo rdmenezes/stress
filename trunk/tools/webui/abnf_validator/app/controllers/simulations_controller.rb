@@ -71,8 +71,8 @@ class SimulationsController < ApplicationController
 	def delete_simulation
 		begin
 			Bj.table.job.delete(params[:id])
-		  FileUtils.rm_rf 'results/'+params[:output]
-		  session[:messages] = {:type => "ok", :msg => "Simulation deleted!"}
+			FileUtils.rm_rf 'results/'+params[:output]
+			session[:messages] = {:type => "ok", :msg => "Simulation deleted!"}
 		end
 		redirect_to :action => :update_simulations_list
 	end
@@ -80,7 +80,7 @@ class SimulationsController < ApplicationController
 	def stop_simulation
 		begin
 			exec("kill #{params[:pid]}")
-		  session[:messages] = {:type => "ok", :msg => "Simulation stopped!"}
+			session[:messages] = {:type => "ok", :msg => "Simulation stopped!"}
 		end
 		redirect_to :action => :update_simulations_list
 	end
