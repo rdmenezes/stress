@@ -9,8 +9,11 @@
 	</th>
 	<th style="text-align:center" width="15%">RTT Stats</th>
 	<th style="text-align:center" width="15%">Anomaly type</th>
-	<th style="text-align:center" width="15%"><%= link_to_remote "Levenshtein distance",
-										{:url => { :controller => :output_analyzer, :action => :get_l_distance, :output => @simulation_selected}, :update => "output_analyzer_result"} %>
+	<th style="text-align:center" width="15%">
+		<%= link_to_remote "Levenshtein distance",
+							{:url => { :controller => :output_analyzer, :action => :get_l_distance, :output => @simulation_selected}, 
+							:before => "loading('output_analyzer_result')",
+							:update => "output_analyzer_result"} %>
 	</th>
 	<th style="text-align:center" width="15%">Sanity check</th>
 	

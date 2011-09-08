@@ -1,6 +1,23 @@
 #Here you can insert extra classes or what you need, then you have to include this file in your controller/model
 
 require 'nokogiri'
+require 'text'
+
+class LDistance
+	attr_reader :name
+	
+	def initialize(name =nil, first=nil, second=nil)
+		@first = first
+		@second = second
+		@name = name
+	end
+	def l_distance (first = @first, second = @second)
+		first = "" if first == nil
+		second = "" if second == nil
+		#return rand(101).to_i
+		return Text::Levenshtein.distance(first, second).to_i
+	end
+end
 
 class XMLTestcase < Nokogiri::XML::SAX::Document
 
@@ -46,9 +63,15 @@ class XMLTestcase < Nokogiri::XML::SAX::Document
 				data = p.second if p.first =="data"
 			end
 			if read == "Data received" 
-				@testcase.frames << ReadFrame.new(:data => data, :position => position) 
+				ld = LDistance.new
+				l_dist = 0
+				first_read = @simulation.testcases.first.frames[position]
+				l_dist = ld.l_distance(first_read.data, data) unless first_read == nil
+				@testcase.frames << ReadFrame.new(:data => data, :position => position, :l_distance => l_dist) 
 			else
-				@testcase.frames << NoResponse.new(:position => position)
+				l_dist = 0
+				l_dist = @simulation.testcases.first.frames[position].data.size unless @simulation.testcases.first.frames[position] == nil
+				@testcase.frames << NoResponse.new(:position => position, :l_distance => l_dist)
 			end
 		else
 		
