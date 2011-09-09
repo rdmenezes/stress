@@ -11,14 +11,14 @@
 	<th style="text-align:center" width="15%">Anomaly type</th>
 	<th style="text-align:center" width="15%">
 		<%= link_to_remote "Levenshtein distance",
-							{:url => { :controller => :output_analyzer, :action => :get_l_distance, :output => @simulation_selected}, 
+							{:url => { :controller => :output_analyzer, :action => :get_l_distance_menu, :output => @simulation_selected}, 
 							:before => "loading('output_analyzer_result')",
 							:update => "output_analyzer_result"} %>
 	</th>
 	<th style="text-align:center" width="15%">Sanity check</th>
-	
+	<th style="text-align:center" width="10%"></th>
 	<tr>
-	<td colspan="6">
+	<td colspan="7">
 	<div id="output_analyzer_result">
 		<ul>
 		<% @files.each do |f| %>
