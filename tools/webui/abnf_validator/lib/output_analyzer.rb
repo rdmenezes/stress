@@ -35,6 +35,8 @@ class XMLTestcase < Nokogiri::XML::SAX::Document
 	end
 
 	def start_element name, attrs = []
+		testcase_position = 0
+		testcase_position = @simulation.testcases.last.position+1 unless @simulation.testcases.last == nil
 		position = 0
 		data = nil
 		case name
@@ -45,7 +47,7 @@ class XMLTestcase < Nokogiri::XML::SAX::Document
 				id = p.second if p.first =="id"
 				run = p.second if p.first =="run"
 			end
-			@testcase = Testcase.new(:filename => @filename, :id_anomaly => id, :run => run)
+			@testcase = Testcase.new(:filename => @filename, :id_anomaly => id, :run => run, :position => testcase_position)
 			@simulation.testcases << @testcase
 			@simulation.save
 		when "send"

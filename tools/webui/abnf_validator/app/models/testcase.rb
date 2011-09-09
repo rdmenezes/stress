@@ -4,7 +4,8 @@ class Testcase < ActiveRecord::Base
 	has_many :monitorreports
 	
 	def printHTML
-		out = "ID: "+self.id_anomaly.to_s
+		out = "<b>"+self.position.to_s+"</b> -"
+		out += " ID: "+self.id_anomaly.to_s
 		out += " RUN: "+self.run.to_s
 		return out
 	end
