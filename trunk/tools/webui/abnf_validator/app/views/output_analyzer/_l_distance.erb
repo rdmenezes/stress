@@ -1,23 +1,6 @@
-<% chart("graph", 
-			{ "Graph1" => { :collection => @l_distance, :x => :testcase_id, :y => :l_distance, :options => { 
-				:points => { 
-					:show => true 
-				}, 
-				:lines => { :show => true }
-			}
-			}},
-			{
-				:grid => { 
-					:clickable => true,
-					:hoverable => true,
-					:mouseActiveRadius => 10
-				}
-			},{ :js_includes => true, :js_tags => true, :placeholder_tag => true, :placeholder_size => "1200x600" } )%>
+<div id="placeholder" style="width:1200px;height:600px"></div>
 
-
-    <div id="placeholder" style="width:1200px;height:600px"></div>
-
-    <p id="hoverdata">Mouse hovers at
+<p id="hoverdata">Mouse hovers at
     (<span id="x">0</span>, <span id="y">0</span>). <span id="clickdata"></span></p>
 
     <p><input id="enableTooltip" type="checkbox">Enable tooltip</p>
@@ -25,10 +8,9 @@
 <script type="text/javascript">
 $(function () {
     var graph_data = [];
-    <% @l_distance.each do |l| %>
-    graph_data.push([<%= l.testcase_id %>,<%= l.l_distance %>]);
+    <% @l_distance.each_index do |l| %>
+    graph_data.push([<%= l %>,<%= @l_distance[l].l_distance %>]);
     <% end %>
-    
     
     var plot = $.plot($("#placeholder"),
            [ { data: graph_data, label: "Levenshtein distance"} ], {
