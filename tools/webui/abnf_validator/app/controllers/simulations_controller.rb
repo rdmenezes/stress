@@ -46,12 +46,12 @@ class SimulationsController < ApplicationController
 				autoinjection = "-j1"
 			end
       process = Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection}", :tag => "#{session[:username]},#{session[:editor_filename]},#{params[:output]}"
-      pid = process[0].pid
+      session[:process_id] = Bj.table.job.find(process[0].id)
+      session[:output] = params[:output]
 			#f = IO.popen("script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection}")			
 			#puts "script/stress -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/"
 			#stdin, stdout, stderr, exec = Open3.popen3('script/stress -a script/temp2 -d 127.0.0.1 -p 110 -o results/risultato.xml')
 			#f = IO.popen('script/test.sh')
-			simulation = Simulation.new_simulation(pid, session[:username], session[:editor_filename], params[:output])
 			#Process.detach(f.pid)
 			session[:messages] = {:type => "ok", :msg => "Simulation lauched!"}
 		rescue Exceptions::MissingParameters
@@ -70,7 +70,20 @@ class SimulationsController < ApplicationController
 	
 	def delete_simulation
 		begin
-			Bj.table.job.delete(params[:id])
+			simulation = Simulation.find(params[:id])
+			output = simulation.output
+			job1 = Bj.table.job.find(:all, :conditions => ["tag like ?", "%,#{output}%"])
+			puts job1.class
+			puts job1.length
+			puts job1.inspect
+			job2 = Bj.table.job_archive.find(:all, :conditions => ["tag like ?", "%,#{output}%"])
+			if job1.length != 0
+				job1[0].delete
+			end
+			if job2.length != 0
+				job2[0].delete
+			end
+			Simulation.delete(params[:id])
 			FileUtils.rm_rf 'results/'+params[:output]
 			session[:messages] = {:type => "ok", :msg => "Simulation deleted!"}
 		end
@@ -97,6 +110,12 @@ class SimulationsController < ApplicationController
 		render :partial => "file_content"
 	end
 	
+	def set_pid
+		process = Bj.table.job.find(session[:process_id].id)
+		simulation = Simulation.new_simulation(process.pid, session[:username], session[:editor_filename], session[:output])
+		render :text => ""
+	end
+	
 #	def indent_output
 #		file = File.new(params[:file], "r").read
 #		content = file.split("\n")
@@ -107,6 +126,7 @@ class SimulationsController < ApplicationController
 	
 	private
 	
+		
 	#IT SHOULD VALIDATE ADDRESS INSERTED IN SIMULATION MASK, BUT IT MUST BE IMPROVED
 	def validate_url(url)
 	  url = URI.parse(url)
@@ -116,17 +136,16 @@ class SimulationsController < ApplicationController
 	end
 	
 	def check_running_simulations
-#		simulations = Simulation.find(:all)
-#			simulations.each do |s|
-#				if s.running
-#					running = File.exist? "/proc/#{s.pid}"
-#					s.update_attributes(:running => running)
-#				end
-#			end
+		simulations = Simulation.find(:all)
+			simulations.each do |s|
+				if s.running
+					running = File.exist? "/proc/#{s.pid}"
+					s.update_attributes(:running => running)
+				end
+			end
 		time = Time.now
 		@updated_at = time.strftime("%H:%M:%S")
-#		return Simulation.find_all_by_username(session[:username])
-		return Bj.list
+		return Simulation.find_all_by_username(session[:username])
 	end
 	
 #	def indent(content)
