@@ -101,9 +101,9 @@ ActiveRecord::Schema.define(:version => 20110909074132) do
     t.string   "username"
     t.string   "filename"
     t.string   "output"
-    t.boolean  "running"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "running"
   end
 
   create_table "testcases", :force => true do |t|
