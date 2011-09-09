@@ -33,10 +33,11 @@ class OutputAnalyzerController < ApplicationController
         # end
 	end
 	
-	def get_l_distance
+	def get_l_distance_graph
 		#Only one graph can be used per page.
 		#Values must be in the range 0-100
 		@simulation_selected=params[:output]
+		pos = params[:frames].to_i
 		#render :text => '<div style="clear:both;"></div> Calcolo della distanza di Levenshtein '+@simulation_selected.to_s
 		sims = Simulation.find_all_by_output(@simulation_selected).first
 		@l_distance = Array.new
@@ -46,14 +47,25 @@ class OutputAnalyzerController < ApplicationController
 		#end
 		
 		sims.testcases.each do |testcase|
-			@l_distance << testcase.frames.second unless testcase.frames.second == nil
+			@l_distance << testcase.frames[pos] unless testcase.frames[pos] == nil
 			#testcase.frames.each_index do |i|
 			#	name="ID: "+testcase.id_anomaly.to_s+" RUN: "+testcase.run.to_s
 			#	@l_distance[i] << LDistance.new(name, first.frames[i].data, testcase.frames[i].data)
 			#end
 		end
 			
-		render :partial => 'l_distance'
+		render :partial => 'l_distance_graph'
+	end
+	
+	def get_l_distance_menu
+		@simulation_selected=params[:output]
+		sims = Simulation.find_all_by_output(@simulation_selected).first
+		first = sims.testcases.first
+		@read_frames = Array.new
+		first.frames.each do |f|
+			@read_frames << f if f.type == "ReadFrame" or f.type == "NoResponse"
+		end
+		render :partial => "l_distance"
 	end
 	
 	def get_testcase_list
