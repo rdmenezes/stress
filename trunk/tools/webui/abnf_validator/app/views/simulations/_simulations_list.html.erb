@@ -17,7 +17,7 @@
 				<td><%= s.filename %></td>
 				<td><%= s.output %></td>
 				<td><%= s.created_at %></td>
-				<td align="center"><%= s.running ? image_tag("/images/dialog-no.png") : image_tag("/images/dialog-ok.png") %></td>
+				<td align="center"><%= s.running ? image_tag("/images/dialog-ok.png") : image_tag("/images/dialog-no.png") %></td>
 				
 				<td align="center"><%= link_to_remote image_tag("/images/del.png"), {:url => { :controller => :simulations, :action => :delete_simulation, :id => s.id, :output => s.output}, :update => "right_column", :confirm => ('Delete simulation and all its output files?'), :success => "notify()"} %></td>
 				
