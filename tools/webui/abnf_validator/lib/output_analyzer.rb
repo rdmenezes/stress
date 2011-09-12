@@ -39,6 +39,7 @@ class XMLTestcase < Nokogiri::XML::SAX::Document
 		testcase_position = @simulation.testcases.last.position+1 unless @simulation.testcases.last == nil
 		position = 0
 		data = nil
+		state_name = nil
 		case name
 		when "testcase"
 			id=0
@@ -57,6 +58,21 @@ class XMLTestcase < Nokogiri::XML::SAX::Document
 			end
 			
 			@testcase.frames << SentFrame.new(:data => data, :position => position)
+		when "state"
+			attrs.each do |p|
+				data = p.second if p.first =="data"
+				state_name = p.second if p.first =="name"
+			end
+			if state_name =~ /Anomaly-([1-9]\d*)/
+				if($1) != @anomaly_number_of_value
+					write_fault
+				end
+				@anomaly_number_of_value = $1
+				@anomaly = "" if @anomaly == nil
+				@anomaly += data
+			elsif @anomaly != nil
+				write_fault
+			end
 		when "read"
 			position = @testcase.frames.last.position.to_i+1 unless @testcase.frames.last == nil
 			read = nil
@@ -79,6 +95,14 @@ class XMLTestcase < Nokogiri::XML::SAX::Document
 		
 		end
 	end
+
+	def write_fault
+		@testcase.frames.last.faults << Fault.new ( :value => @anomaly , :number_of_value => @anomaly_number_of_value) unless @anomaly == nil
+		@testcase.frames.last.save
+		@anomaly_number_of_value = nil
+		@anomaly = nil
+	end
+	
 
 #	def end_element name
 #		puts "#{name} ended"

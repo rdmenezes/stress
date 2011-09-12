@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110909074132) do
+ActiveRecord::Schema.define(:version => 20110912092413) do
 
   create_table "abnf_files", :force => true do |t|
     t.string   "name"
@@ -72,6 +72,14 @@ ActiveRecord::Schema.define(:version => 20110909074132) do
     t.integer  "exit_status"
   end
 
+  create_table "faults", :force => true do |t|
+    t.integer  "number_of_value"
+    t.integer  "frame_id"
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "frames", :force => true do |t|
     t.string   "type"
     t.integer  "testcase_id"
@@ -101,9 +109,9 @@ ActiveRecord::Schema.define(:version => 20110909074132) do
     t.string   "username"
     t.string   "filename"
     t.string   "output"
+    t.boolean  "running"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "running"
   end
 
   create_table "testcases", :force => true do |t|
