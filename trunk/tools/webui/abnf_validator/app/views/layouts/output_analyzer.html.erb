@@ -15,7 +15,9 @@
 <body onload="resize();" onresize="resize(); setRowNumber();">
 <div id="flash_messages"></div>
 <div id="header">
-	<a href="/"><div id="scritta"></div></a>
+		<div id="scritta">
+			<a href="http://code.google.com/p/stress" target="_blank"><div id="stress_link" style="width:256px; height:20px; top:100px; left:230px; position:absolute;"></div></a>
+		</div>
 	<% if session[:autenticato] %>
 		<div id="benvenuto">
 			<!--<span style="float:left;">Benvenuto <%= session[:username] -%>!</span>-->
