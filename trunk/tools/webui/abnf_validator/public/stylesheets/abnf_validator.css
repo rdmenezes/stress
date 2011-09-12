@@ -65,13 +65,26 @@ img{
 	font-size:x-large;
 }	
 
+#ni2s3{
+	 width:580px;
+	 margin: 0px auto;
+	 margin-top:20px;
+}
+	
+#login-form{
+	height:200px;
+	width:580px; 
+	background:url("/images/key.jpg") no-repeat bottom right;
+	text-shadow: #999 1px 1px 1px;
+}
+
 #tabs{
 	position:absolute;
-	top:78px;
+	top:80px;
 	right:10px;
 	font-weight:bold;
-	font-size:20px;
-	line-height:140%;
+	font-size:15px;
+	line-height:100%;
 }
 
 #tabs ul{
@@ -80,8 +93,8 @@ img{
 
 #tabs li{
 	float:left;
-	width:151px;
-	height:33px;
+	width:121px;
+	height:38px;
 	margin-left:20px;
 	background-color:white;
 	-moz-border-radius:10px 10px 0px 0px;
