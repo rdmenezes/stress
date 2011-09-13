@@ -8,9 +8,11 @@
 <script type="text/javascript">
 $(function () {
     var graph_data = [];
-    <% @l_distance.each_index do |l| %>
+    <% @l_distance.each_index do |l| 
+		if @l_distance[l] != nil %>
     graph_data.push([<%= l %>,<%= @l_distance[l].l_distance %>]);
-    <% end %>
+    <% end
+    end %>
     
     var plot = $.plot($("#placeholder"),
            [ { data: graph_data, label: "Levenshtein distance"} ], {
