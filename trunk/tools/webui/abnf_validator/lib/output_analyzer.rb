@@ -91,6 +91,17 @@ class XMLTestcase < Nokogiri::XML::SAX::Document
 				l_dist = @simulation.testcases.first.frames[position].data.size unless @simulation.testcases.first.frames[position] == nil
 				@testcase.frames << NoResponse.new(:position => position, :l_distance => l_dist)
 			end
+		when "monitor"
+			monitor_name = ""
+			attrs.each do |p|
+				monitor_name = p.second if p.first =="name"
+				data = p.second if p.first =="data"
+			end
+			if monitor_name == "RTT Report"
+				data = data.split(":")[-1]
+				position = @testcase.monitorreports.last.position.to_i+1 unless @testcase.monitorreports.last == nil
+				@testcase.monitorreports << RTTReport.new( :value => data.to_f, :position => position )
+			end
 		else
 		
 		end

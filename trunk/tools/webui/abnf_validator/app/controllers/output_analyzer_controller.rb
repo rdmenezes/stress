@@ -85,8 +85,29 @@ class OutputAnalyzerController < ApplicationController
 		render :partial => "frame_content" unless @frame == nil
 	end
 	
+	def get_rtt_stats
+		@simulation_selected=params[:output]
+		sims = Simulation.find_all_by_output(@simulation_selected)
+		@simulation = sims.first
+		@number_of_rtt = @simulation.testcases.first.monitorreports.find_all_by_type("RTTReport").size
+		@rtts = Array.new
+		@simulation.testcases.each do |t|
+			reports = t.monitorreports.find_all_by_type("RTTReport")
+			@rtts[t.position] = reports unless reports == nil
+		end
+		render :partial => "rtt_stats"
+	end
+	
 	def show_loading
 		render :partial => "loading"
+	end
+	
+	def clean_cache
+		@simulation_selected=params[:output]
+		sims = Simulation.find_all_by_output(@simulation_selected)
+		@simulation = sims.first
+		@simulation.testcases.destroy_all
+		render :text => 'Cache for simulation '+@simulation_selected.to_s+' clean!'
 	end
 	
 	#SAVES AN ABNF FILE FROM FORM INFORMATION
