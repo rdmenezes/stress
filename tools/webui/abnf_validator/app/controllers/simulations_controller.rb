@@ -45,7 +45,10 @@ class SimulationsController < ApplicationController
 			if params[:autoinjection] == "true"
 				autoinjection = "-j1"
 			end
-      process = Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection}", :tag => "#{session[:username]},#{session[:editor_filename]},#{params[:output]}"
+			if params[:monitor] == "true"
+				monitor = "-M"
+			end
+      process = Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection} #{monitor}", :tag => "#{session[:username]},#{session[:editor_filename]},#{params[:output]}"
       session[:process_id] = Bj.table.job.find(process[0].id)
       session[:output] = params[:output]
 			#f = IO.popen("script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection}")			

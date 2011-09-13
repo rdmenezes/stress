@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110912092413) do
+ActiveRecord::Schema.define(:version => 20110912151211) do
 
   create_table "abnf_files", :force => true do |t|
     t.string   "name"
@@ -102,6 +102,8 @@ ActiveRecord::Schema.define(:version => 20110912092413) do
     t.integer  "testcase_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "position"
+    t.float    "value"
   end
 
   create_table "simulations", :force => true do |t|
