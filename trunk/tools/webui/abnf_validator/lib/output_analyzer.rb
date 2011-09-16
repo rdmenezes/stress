@@ -58,6 +58,7 @@ class XMLTestcase < Nokogiri::XML::SAX::Document
 			end
 			
 			@testcase.frames << SentFrame.new(:data => data, :position => position)
+			@testcase.save
 		when "state"
 			attrs.each do |p|
 				data = p.second if p.first =="data"
@@ -74,6 +75,9 @@ class XMLTestcase < Nokogiri::XML::SAX::Document
 				write_fault
 			end
 		when "read"
+			if @anomaly != nil
+				write_fault
+			end
 			position = @testcase.frames.last.position.to_i+1 unless @testcase.frames.last == nil
 			read = nil
 			attrs.each do |p|
@@ -86,10 +90,12 @@ class XMLTestcase < Nokogiri::XML::SAX::Document
 				first_read = @simulation.testcases.first.frames[position]
 				l_dist = ld.l_distance(first_read.data, data) unless first_read == nil
 				@testcase.frames << ReadFrame.new(:data => data, :position => position, :l_distance => l_dist) 
+				@testcase.save
 			else
 				l_dist = 0
-				l_dist = @simulation.testcases.first.frames[position].data.size unless @simulation.testcases.first.frames[position] == nil
+				#l_dist = @simulation.testcases.first.frames[position].data.size unless @simulation.testcases.first.frames[position] == nil
 				@testcase.frames << NoResponse.new(:position => position, :l_distance => l_dist)
+				@testcase.save
 			end
 		when "monitor"
 			monitor_name = ""

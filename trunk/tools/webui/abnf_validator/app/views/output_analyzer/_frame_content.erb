@@ -1,7 +1,7 @@
 <% data =  @frame.data unless @frame.data == nil %>
 
-<% @frame.faults.each do |f|
-				
+<% 
+@frame.faults.each do |f|
 				id = data.index(f.value)
 				data.insert(id+f.value.size, "</b>")
 				data.insert(id, "<b>")
