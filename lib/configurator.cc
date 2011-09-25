@@ -9,7 +9,7 @@ std::auto_ptr<Configurator> Configurator::_instance;
 Configurator::Configurator() : abnf_file(""), output_file("/tmp/state"),
 mac(false), ip(false), udp(false), tcp(false),
 ip_src("127.0.0.1"), ip_dst("127.0.0.1"), type_output("xml"), dport(0),
-auto_inject(0),delay(250),monitor(0),timeout(2000),iface("mon0") {
+auto_inject(0),delay(250),monitor(0),timeout(2000),iface("mon0"),listen(false) {
 };
 
 Configurator* Configurator::getInstance() {
@@ -34,7 +34,8 @@ void Configurator::usage() {
     ss << "--port PORT		-p PORT			Insert Port Number" << std::endl;
     ss << "--timeout N		-t N			Wait n msec for reading packets" << std::endl;
     ss << "--iface IFACE	-i IFACE			Network interface used for RAW socket" << std::endl;
-    ss << "" << std::endl;
+    ss << "--listen			-l				Enable server mode" << std::endl;
+    ss << "" << std::endl;	
     ss << "--help			-h 			Display this help " << std::endl;
     ss << "--output FILENAME	-o FILENAME 		Insert output root filename" << std::endl;
     ss << "--type			-O OUTPUT-TYPE		xml, dot [default: xml]" << std::endl;
@@ -120,6 +121,10 @@ void Configurator::parseCmdLine(int argc, char* argv[]) {
                 iface = std::string(optarg);
                 std::cout << "Interface: " << iface << std::endl;
                 break;
+			case 'l':
+				listen = true;
+                std::cout << "Server Mode enabled!" << std::endl;
+				break;
             default:
                 break;
         }

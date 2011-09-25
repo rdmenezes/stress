@@ -1,6 +1,7 @@
 #include <socket-factory.h>
 #include <udp-socket.h>
 #include <tcp-socket.h>
+#include <tcp-server-socket.h>
 #include <raw-socket.h>
 #include <configurator.h>
 
@@ -54,7 +55,7 @@ Socket* SocketFactory::getSocket(UdpReadAction* action){
 
 Socket* SocketFactory::getUdpSocket(){
 	if(udp == 0)
-		udp_socket = new UdpSocket();
+		udp_socket = newUdpSocket();
 	udp++;
 	return udp_socket;
 };
@@ -86,7 +87,7 @@ Socket* SocketFactory::getSocket(TcpReadAction* action){
 
 Socket* SocketFactory::getTcpSocket(){
 	if(tcp == 0)
-		tcp_socket = new TcpSocket();
+		tcp_socket = newTcpSocket();
 	tcp++;
 	return tcp_socket;
 };
@@ -117,7 +118,7 @@ Socket* SocketFactory::getSocket(RawReadAction* action){
 
 Socket* SocketFactory::getRawSocket(){
 	if(raw == 0)
-		raw_socket = new RawSocket();
+		raw_socket = newRawSocket();
 	raw++;
 	return raw_socket;
 };
@@ -160,4 +161,20 @@ void SocketFactory::releaseAllSocket (){
 		delete raw_socket;
 		raw_socket = 0;
 	}
+};
+
+Socket* SocketFactory::newTcpSocket(){
+	bool server = Configurator::getInstance()->getListen();
+	if(server)
+		return new TcpServerSocket();
+	else
+		return new TcpSocket();
+};
+
+Socket* SocketFactory::newUdpSocket(){
+	return new UdpSocket();
+};
+
+Socket* SocketFactory::newRawSocket(){
+	return new RawSocket();
 };
