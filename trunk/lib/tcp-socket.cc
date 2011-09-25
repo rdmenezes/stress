@@ -19,7 +19,6 @@ TcpSocket::TcpSocket() :
 		//boost::asio::socket_base::receive_buffer_size option(8192);
 		//socket.set_option(option);
 
-
 		//unsigned short timeout = 2;
 		//option.name(SO_RCVTIMEO);
 		//option.data(&timeout);

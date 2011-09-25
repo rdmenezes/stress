@@ -48,7 +48,9 @@ class SocketFactory {
 		void		releaseTcpSocket();
 		Socket* 	getRawSocket();
 		void		releaseRawSocket();
-
+		Socket*		newTcpSocket();
+		Socket*		newUdpSocket();
+		Socket*		newRawSocket();
 	public:
 
 	protected:

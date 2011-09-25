@@ -15,10 +15,11 @@ static struct option long_options[] = {
 	{"destination", 1, 0, 'd'},
 	{"port", 1, 0, 'p'},
 	{"help", 0, 0, 'h'},
-   {"inject", 1, 0, 'j'},
+    {"inject", 1, 0, 'j'},
 	{"monitor", 0, 0, 'M'},
 	{"delay", 1, 0, 'D'},
 	{"iface", 1, 0, 'i'},
+	{"listen", 0, 0, 'l'},
 	{0, 0, 0, 0}
 };
 
@@ -40,6 +41,7 @@ class Configurator{
 		const int& 		getMonitor(){ return monitor; };
 		const int&		getTimeout(){ return timeout; };
 		const std::string&	getIface(){return iface;};
+		const bool& getListen(){return listen; };
 		
 	protected:
 		Configurator();
@@ -66,6 +68,7 @@ class Configurator{
 		int delay;
 		int timeout;
 		std::string iface;
+		bool listen;
 };
 
 #endif
