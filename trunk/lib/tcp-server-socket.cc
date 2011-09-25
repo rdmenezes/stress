@@ -21,21 +21,21 @@
 #include <iostream>
 #include <configurator.h>
 
-TcpServerSocket::TcpServerSocket() :
-	Socket(),	
+TcpServerSocket::TcpServerSocket() :	
 	io_service(0), 
 	to_address(), 
 	receiver_endpoint(), 
 	sender_endpoint(), 
 	socket(io_service) {
 	try{
+		resetTimeout ();
 		to_address = boost::asio::ip::address::from_string(Configurator::getInstance()->getDestinationIp());
 
-		receiver_endpoint.address(boost::asio::ip::tcp::v4());
+		//receiver_endpoint.address(boost::asio::ip::tcp::v4());
 		receiver_endpoint.port(Configurator::getInstance()->getPort());
 
+		boost::asio::ip::tcp::acceptor acceptor(io_service);
 		//acceptor = boost::asio::ip::tcp::acceptor(io_service, receiver_endpoint);
-		acceptor(io_service);
 		acceptor.open(receiver_endpoint.protocol());
 		acceptor.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
 		acceptor.bind(receiver_endpoint);
@@ -68,6 +68,12 @@ TcpServerSocket::~TcpServerSocket(){
 void TcpServerSocket::reconnect(){
 	try{
 		socket.close();
+
+		boost::asio::ip::tcp::acceptor acceptor(io_service, receiver_endpoint);
+
+		boost::asio::socket_base::non_blocking_io command(false);
+		socket.io_control(command);
+		
 		//socket.open(boost::asio::ip::tcp::v4());
 		//socket.connect(receiver_endpoint);
 		acceptor.open(receiver_endpoint.protocol());
@@ -81,13 +87,7 @@ void TcpServerSocket::reconnect(){
 	}
 };
 
-int TcpServerSocket::send(std::vector<uint8_t>& data_to_send){
-	try{
-		socket.send(boost::asio::buffer(data_to_send));
-	}catch(boost::system::system_error& se){
-		std::cerr <<"TcpSocket::send(): "<< se.what() << std::endl;
-	}
-};
+
 int TcpServerSocket::read(std::vector<uint8_t>& data_to_read){
 	uint8_t data[2049];
 	memset(data,0,2049);
