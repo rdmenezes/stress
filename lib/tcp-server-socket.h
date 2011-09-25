@@ -20,16 +20,15 @@
 #ifndef _TCP_SERVER_SOCKET_H_
 #define _TCP_SERVER_SOCKET_H_
 
-#include <socket.h>
+#include <tcp-socket.h>
 #include <boost/asio.hpp>
 
-class TcpServerSocket: public Socket 
+class TcpServerSocket: public TcpSocket 
 {
 	public:
 		TcpServerSocket();
 		~TcpServerSocket();
 		virtual void reconnect();		
-		virtual int send(std::vector<uint8_t>&);
 		virtual int read(std::vector<uint8_t>&);
 	protected:
 
@@ -39,7 +38,7 @@ class TcpServerSocket: public Socket
 		boost::asio::ip::tcp::endpoint receiver_endpoint;
 		boost::asio::ip::tcp::endpoint sender_endpoint;
 		boost::asio::ip::tcp::socket socket;
-		boost::asio::ip::tcp::acceptor acceptor;
+	//	boost::asio::ip::tcp::acceptor acceptor;
 };
 
 #endif // _TCP_SERVER_SOCKET_H_
