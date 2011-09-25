@@ -165,10 +165,11 @@ void SocketFactory::releaseAllSocket (){
 
 Socket* SocketFactory::newTcpSocket(){
 	bool server = Configurator::getInstance()->getListen();
-	if(server)
+	if(server){
 		return new TcpServerSocket();
-	else
+	}else{
 		return new TcpSocket();
+	}
 };
 
 Socket* SocketFactory::newUdpSocket(){

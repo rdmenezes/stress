@@ -27,6 +27,7 @@ TcpServerSocket::TcpServerSocket() :
 	receiver_endpoint(), 
 	sender_endpoint(), 
 	socket(io_service) {
+		std::cout << "TcpServerSocket" << std::endl;
 	try{
 		resetTimeout ();
 		to_address = boost::asio::ip::address::from_string(Configurator::getInstance()->getDestinationIp());
@@ -53,7 +54,7 @@ TcpServerSocket::TcpServerSocket() :
 
 		socket.connect(receiver_endpoint); */
 	} catch (std::exception& e) {
-		std::cerr << "TcpSocket::TcpSocket(): " << e.what() << std::endl;
+		std::cerr << "TcpServerSocket::TcpServerSocket(): " << e.what() << std::endl;
 		exit(-1);
 	}					
 };
@@ -87,6 +88,13 @@ void TcpServerSocket::reconnect(){
 	}
 };
 
+int TcpServerSocket::send(std::vector<uint8_t>& data_to_send){
+	try{
+		socket.send(boost::asio::buffer(data_to_send));
+	}catch(boost::system::system_error& se){
+		std::cerr <<"TcpSocket::send(): "<< se.what() << std::endl;
+	}
+};
 
 int TcpServerSocket::read(std::vector<uint8_t>& data_to_read){
 	uint8_t data[2049];
@@ -106,7 +114,7 @@ int TcpServerSocket::read(std::vector<uint8_t>& data_to_read){
 	  try{
 		 len = socket.receive(boost::asio::buffer(data, 2048));
 	  } catch (boost::system::system_error& se) {
-		 std::cerr << "TcpSocket::read(): " << se.what() << std::endl;
+		 std::cerr << "TcpServerSocket::read(): " << se.what() << std::endl;
 	  }
 	  for(int i=0; i<2050; i++)
 		 data_to_read.push_back(data[i]);
