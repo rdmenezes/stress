@@ -23,13 +23,14 @@
 #include <tcp-socket.h>
 #include <boost/asio.hpp>
 
-class TcpServerSocket: public TcpSocket 
+class TcpServerSocket: public Socket 
 {
 	public:
 		TcpServerSocket();
 		~TcpServerSocket();
 		virtual void reconnect();		
 		virtual int read(std::vector<uint8_t>&);
+		virtual int send(std::vector<uint8_t>&);
 	protected:
 
 	private:

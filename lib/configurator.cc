@@ -55,7 +55,7 @@ void Configurator::parseCmdLine(int argc, char* argv[]) {
     while (opt > 0) {
         int option_index;
         std::stringstream ss;
-        opt = getopt_long(argc, argv, "a:miut:s:d:p:ho:O:j:D:M",
+        opt = getopt_long(argc, argv, "a:miut:s:d:p:ho:O:j:D:Ml",
                 long_options, &option_index);
 
         switch (opt) {
