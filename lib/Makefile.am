@@ -28,8 +28,11 @@ libstress_a_SOURCES = 	composite.cc \
 								abstract-monitor.cc \
 								r-t-t-monitor.h \
 								r-t-t-monitor.cc \
+								sanity-check-monitor.h \
+								sanity-check-monitor.cc \
 								tcp-server-socket.h \
 								tcp-server-socket.cc
+
 libstress_a_HEADERS = 	composite-factory.h \
 								composite.h \
 								or-composite.h \

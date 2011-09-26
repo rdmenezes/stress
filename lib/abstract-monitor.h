@@ -26,7 +26,7 @@ class AbstractMonitor
 {
 	public:
 		virtual State* getReport()=0;
-		virtual  void start_test()=0;
+		virtual void start_test()=0;
 		virtual void finish_test()=0;
         virtual void packet_read();
         virtual void packet_sent();

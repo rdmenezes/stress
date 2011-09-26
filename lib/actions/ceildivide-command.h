@@ -17,31 +17,24 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _R_T_T_MONITOR_H_
-#define _R_T_T_MONITOR_H_
+#ifndef _CEILDIVIDE_COMMAND_H_
+#define _CEILDIVIDE_COMMAND_H_
 
-#include <abstract-monitor.h>
-#include <sys/time.h>
-#include <boost/date_time/posix_time/posix_time.hpp>
-#include <vector>
+#include <action.h>
+#include <command.h>
 
-class RTTMonitor : public AbstractMonitor{
+class CeilDivideCommand: public Action, Command{
 	public:
-		RTTMonitor();
-		~RTTMonitor();
-
-		State* getReport();
-		void start_test();
-		void finish_test();
-        void packet_sent();
-        void packet_read();
+		CeilDivideCommand();
+		~CeilDivideCommand();
+		Action* clone();
+		virtual State* runAction(Composite*);
 	protected:
 
 	private:
-		boost::posix_time::ptime start;
-		boost::posix_time::ptime stop;
-        boost::posix_time::ptime send_time;
-        std::vector<boost::posix_time::time_duration> rtts;
+
 };
 
-#endif // _R_T_T_MONITOR_H_
+static CeilDivideCommand* ceildivide_command = new CeilDivideCommand();
+
+#endif // _CEILDIVIDE_COMMAND_H_

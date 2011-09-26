@@ -12,6 +12,7 @@ class UdpSocket : public Socket {
 		virtual int send(std::vector<uint8_t>&);
 		virtual int read(std::vector<uint8_t>&);
 		virtual void reconnect();
+		virtual bool check();
 	protected:
 
 	private:

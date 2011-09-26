@@ -127,3 +127,7 @@ int RawSocket::read(std::vector<uint8_t>& data_to_read){
 };
 
 void RawSocket::reconnect(){};
+
+bool RawSocket::check(){
+	return true;
+};

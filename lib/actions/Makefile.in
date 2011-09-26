@@ -62,7 +62,8 @@ am_libactions_a_OBJECTS = action.$(OBJEXT) or-action.$(OBJEXT) \
 	u-pause-command.$(OBJEXT) variable-command.$(OBJEXT) \
 	addition-command.$(OBJEXT) base64-decode-command.$(OBJEXT) \
 	base64-encode-command.$(OBJEXT) md5-command.$(OBJEXT) \
-	maskcheck-command.$(OBJEXT) valuecheck-command.$(OBJEXT)
+	maskcheck-command.$(OBJEXT) valuecheck-command.$(OBJEXT) \
+	ceildivide-command.$(OBJEXT) repeat-command.$(OBJEXT)
 libactions_a_OBJECTS = $(am_libactions_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -248,7 +249,11 @@ libactions_a_SOURCES = action.cc \
 								maskcheck-command.cc \
 								maskcheck-command.h \
 								valuecheck-command.cc \
-								valuecheck-command.h
+								valuecheck-command.h \
+								ceildivide-command.cc \
+								ceildivide-command.h \
+								repeat-command.cc \
+								repeat-command.h
 
 libactions_a_HEADERS = action.h \
 								or-action.h \
@@ -317,6 +322,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/addition-command.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/base64-decode-command.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/base64-encode-command.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ceildivide-command.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/command-composite.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/command.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/inject-action.Po@am__quote@
@@ -330,6 +336,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raw-send-action.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/read-action.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/repeat-action.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/repeat-command.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/return-action.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/send-action.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/skel-command.Po@am__quote@

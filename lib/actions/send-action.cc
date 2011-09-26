@@ -47,9 +47,9 @@ State* SendAction::runAction(Composite* c){
 	
 	
 	int n = socket->send(data_to_send);
-	if(n){
-            TestCaseManager::getInstance()->sendNotificationPacketSent();
+	if(n>=0){
             res = new SendPacketState(c->getId());
+            TestCaseManager::getInstance()->sendNotificationPacketSent();
             res->setName("Data sent");
             std::string s;
             s+="\\\"";

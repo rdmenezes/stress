@@ -12,6 +12,7 @@ class Socket {
 		virtual int read(std::vector<uint8_t>&)=0;
 		virtual void reconnect()=0;
 		virtual void resetTimeout();
+		virtual bool check()=0;
 	protected:
 
 		virtual timeval* getTimeout();

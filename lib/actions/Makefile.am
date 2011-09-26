@@ -46,7 +46,11 @@ libactions_a_SOURCES = 	action.cc \
 								maskcheck-command.cc \
 								maskcheck-command.h \
 								valuecheck-command.cc \
-								valuecheck-command.h
+								valuecheck-command.h \
+								ceildivide-command.cc \
+								ceildivide-command.h \
+								repeat-command.cc \
+								repeat-command.h
 libactions_a_HEADERS = 	action.h \
 								or-action.h \
 								repeat-action.h \

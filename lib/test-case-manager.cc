@@ -21,6 +21,7 @@
 #include <configurator.h>
 #include <monitor.h>
 #include <r-t-t-monitor.h>
+#include <sanity-check-monitor.h>
 #include <ok-state.h>
 
 InjectState::InjectState(InjectAction* inj): owner(inj),  num_sons(-1), next(NULL),last(1){};
@@ -48,9 +49,11 @@ bool InjectState::increaseState(){
 TestCaseManager* TestCaseManager::_instance;
 
 TestCaseManager::TestCaseManager():last_frame(0){
+	//TODO add a more smart monitor load system
 	if(Configurator::getInstance()->getMonitor()){
 		//monitors.push_back( new Monitor() );
 		monitors.push_back( new RTTMonitor() );
+		monitors.push_back( new SanityCheckMonitor() );
 	}
 };
 

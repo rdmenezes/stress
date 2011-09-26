@@ -40,6 +40,7 @@ State* RTTMonitor::getReport(){
         
         std::vector<boost::posix_time::time_duration>::iterator it;
         for(it = rtts.begin(); it != rtts.end(); it++){
+			std::cout << "RTT " << (*it) << std::endl;
             ss.str("");
             MonitorReport* r = new MonitorReport(0);
             r->setName("RTT Report");

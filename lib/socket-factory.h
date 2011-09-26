@@ -8,6 +8,9 @@
 #include <raw-send-action.h>
 #include <raw-read-action.h>
 #include <socket.h>
+#include <udp-socket.h>
+#include <tcp-socket.h>
+#include <raw-socket.h>
 
 struct sock_ref{
 	int num_ref;
@@ -34,6 +37,7 @@ class SocketFactory {
 		void releaseSocket(RawSendAction*);
 		void releaseSocket(RawReadAction*);
 		void releaseSocket();
+		void releaseSocket(Socket*);
 		void releaseAllSocket();
 		
 		void reconnectSocket();
