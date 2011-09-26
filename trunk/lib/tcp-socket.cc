@@ -89,6 +89,10 @@ int TcpSocket::read(std::vector<uint8_t>& data_to_read){
 	  return -1;
 };
 
+bool TcpSocket::check(){
+	return socket.is_open();
+};
+
 void TcpSocket::reconnect(){
 	try{
 		socket.close();

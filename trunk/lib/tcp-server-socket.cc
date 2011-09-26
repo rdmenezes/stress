@@ -35,14 +35,14 @@ TcpServerSocket::TcpServerSocket() :
 		//receiver_endpoint.address(boost::asio::ip::tcp::v4());
 		receiver_endpoint.port(Configurator::getInstance()->getPort());
 
-		boost::asio::ip::tcp::acceptor acceptor(io_service);
+		//boost::asio::ip::tcp::acceptor acceptor(io_service);
 		//acceptor = boost::asio::ip::tcp::acceptor(io_service, receiver_endpoint);
-		acceptor.open(receiver_endpoint.protocol());
-		acceptor.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
-		acceptor.bind(receiver_endpoint);
-		acceptor.listen(0);
-		acceptor.accept(socket);
-		acceptor.close();
+		//acceptor.open(receiver_endpoint.protocol());
+		//acceptor.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
+		//acceptor.bind(receiver_endpoint);
+		//acceptor.listen(0);
+		//acceptor.accept(socket);
+		//acceptor.close();
 
 		//socket.open(boost::asio::ip::tcp::v4());
 		/*try{
@@ -68,23 +68,25 @@ TcpServerSocket::~TcpServerSocket(){
 
 void TcpServerSocket::reconnect(){
 	try{
-		socket.close();
-
+		if (check()){
+			socket.close();
+			io_service.reset();
+		}
 		boost::asio::ip::tcp::acceptor acceptor(io_service, receiver_endpoint);
 
-		boost::asio::socket_base::non_blocking_io command(false);
-		socket.io_control(command);
+		//boost::asio::socket_base::non_blocking_io command(false);
+		//socket.io_control(command);
 		
 		//socket.open(boost::asio::ip::tcp::v4());
 		//socket.connect(receiver_endpoint);
-		acceptor.open(receiver_endpoint.protocol());
+		//acceptor.open(receiver_endpoint.protocol());
 		acceptor.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
-		acceptor.bind(receiver_endpoint);
-		acceptor.listen(0);
+		//acceptor.bind(receiver_endpoint);
+		//acceptor.listen(0);
 		acceptor.accept(socket);
 		acceptor.close();
 	} catch      (std::exception& e) {
-		std::cerr << e.what() << std::endl;
+		std::cerr<< "TcpServerSocket::reconnect(): " << e.what() << std::endl;
 	}
 };
 
@@ -121,4 +123,8 @@ int TcpServerSocket::read(std::vector<uint8_t>& data_to_read){
 	  return len;
 	}else
 	  return -1;
+};
+
+bool TcpServerSocket::check(){
+	return socket.is_open();
 };

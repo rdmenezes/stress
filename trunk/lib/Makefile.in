@@ -58,7 +58,8 @@ am_libstress_a_OBJECTS = composite.$(OBJEXT) \
 	test-case-manager.$(OBJEXT) string-leaf.$(OBJEXT) \
 	bin-leaf.$(OBJEXT) dec-leaf.$(OBJEXT) hex-leaf.$(OBJEXT) \
 	monitor.$(OBJEXT) abstract-monitor.$(OBJEXT) \
-	r-t-t-monitor.$(OBJEXT) tcp-server-socket.$(OBJEXT)
+	r-t-t-monitor.$(OBJEXT) sanity-check-monitor.$(OBJEXT) \
+	tcp-server-socket.$(OBJEXT)
 libstress_a_OBJECTS = $(am_libstress_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -264,6 +265,8 @@ libstress_a_SOURCES = composite.cc \
 								abstract-monitor.cc \
 								r-t-t-monitor.h \
 								r-t-t-monitor.cc \
+								sanity-check-monitor.h \
+								sanity-check-monitor.cc \
 								tcp-server-socket.h \
 								tcp-server-socket.cc
 
@@ -347,6 +350,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/r-t-t-monitor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raw-socket.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/repeat-composite.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sanity-check-monitor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socket-factory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socket.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/string-leaf.Po@am__quote@

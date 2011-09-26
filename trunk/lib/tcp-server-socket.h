@@ -31,6 +31,7 @@ class TcpServerSocket: public Socket
 		virtual void reconnect();		
 		virtual int read(std::vector<uint8_t>&);
 		virtual int send(std::vector<uint8_t>&);
+		virtual bool check();
 	protected:
 
 	private:

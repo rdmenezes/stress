@@ -30,11 +30,15 @@ SocketFactory::~SocketFactory(){
 };
 
 Socket* SocketFactory::getSocket (){
-	if(Configurator::getInstance ()->isUdp()){
-		return getUdpSocket ();
-	}else if(Configurator::getInstance ()->isTcp()){
-		return getTcpSocket ();
-	}
+	//TODO return a vector with all allocated sockets
+	if(udp){
+		return getUdpSocket();
+	}else if(tcp){
+		return getTcpSocket();
+	}else if(raw){
+		return getRawSocket();
+	}else
+		return NULL;
 };
 
 void SocketFactory::releaseSocket (){
@@ -130,6 +134,16 @@ void SocketFactory::releaseSocket(RawSendAction* action){
 void SocketFactory::releaseSocket(RawReadAction* action){
 	releaseRawSocket();
 };
+
+void SocketFactory::releaseSocket(Socket* socket){
+	if(socket == tcp_socket)
+		releaseTcpSocket();
+	else if(socket == udp_socket)
+		releaseUdpSocket();
+	else if(socket == raw_socket)
+		releaseRawSocket();
+};
+
 
 void SocketFactory::releaseRawSocket(){
 	raw--;

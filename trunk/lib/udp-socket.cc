@@ -76,3 +76,12 @@ void UdpSocket::reconnect(){
 		std::cerr << "UdpSocket::reconnect(): socket.bind(): " << e.what() << std::endl;
 	}
 };
+
+bool UdpSocket::check(){
+	struct msghdr msg;
+	int sock = socket.native();
+	
+	write(sock, NULL, 0);
+	recvmsg(sock, &msg, 0);
+	return true;
+};
