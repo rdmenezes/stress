@@ -47,13 +47,7 @@
 						url: '/simulations/lunch_simulation/',
 						data: ({address : $("#address").val(), port : $("#port").val(), output : $("#output").val(), abnf : $("#editor_textarea").val(), type : $("#type").val(), autoinjection : $("#autoinjection")[0].checked, monitor : $("#monitor")[0].checked}),
 						dataType: 'html',
-						complete : function(){
-							setTimeout(function(){
-								$.ajax({
-									type: 'get',
-									url: '/simulations/set_pid/',
-									datatype: 'html'
-								});}, 4000);
+						complete: function(){
 							notify();
 						}
 					});
