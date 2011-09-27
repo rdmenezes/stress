@@ -66,12 +66,23 @@ $(function () {
             $("#tooltip").remove();
             previousPoint = null;            
         }
-    });
-
+    });    
+    
     $("#placeholder").bind("plotclick", function (event, pos, item) {
         if (item) {
             $("#clickdata").text("You clicked on Testcase number: " + item.dataIndex + ".");
             plot.highlight(item.series, item.datapoint);
+			$("#tooltip").remove();
+			$.ajax({
+				type: 'post',
+				url: '/output_analyzer/get_testcase_list',
+				dataType: 'html',
+				data: ({output: '<%= @simulation_selected %>',testcase_id: item.dataIndex}),
+				success: function(data){
+					$("#output_analyzer_result").html(data);
+				}
+			});
+		
         }
     });
 });
