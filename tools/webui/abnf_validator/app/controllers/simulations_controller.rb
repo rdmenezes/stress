@@ -35,7 +35,7 @@ class SimulationsController < ApplicationController
 	#LAUNCH SIMULATION
 	def lunch_simulation
 		begin
-			raise Exceptions::MissingParameters if params[:address].length < 1 or params[:port].length < 1 or params[:output].length < 1
+			raise Exceptions::MissingParameters if (params[:address].length < 1 and params[:server_mode] != "true") or params[:port].length < 1 or params[:output].length < 1
 			raise Exceptions::FileExists if File.exist? "results/#{params[:output]}"
 			#raise Exceptions::InvalidIPProvided unless params[:address] =~ /\A(?:25[0-5]|(?:2[0-4]|1\d|[1-9])?\d)(?:\.(?:25[0-5]|(?:2[0-4]|1\d|[1-9])?\d)){3}\z/
 			raise Exceptions::InvalidPortProvided if params[:port].to_i < 1 or params[:port].to_i > 65535
@@ -48,12 +48,15 @@ class SimulationsController < ApplicationController
 			if params[:monitor] == "true"
 				monitor = "-M"
 			end
+			if params[:server_mode] == "true"
+				server = "-l"
+			end
       simulation = Simulation.new_simulation(nil, session[:username], session[:editor_filename], params[:output])
       
       ## TAG FIELD CONTAINS THE OUTPUT DIRECTORY, IT'S THE FOREIGN KEY TO SIMULATIONS TABLE, SO IF YOU NEED TO USE BJ IN ANOTHER
       ## PART OF THE PROJECT YOU CAN'T USE TAG
       
-      process = Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection} #{monitor}", :tag => "#{params[:output]}"
+      process = Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection} #{monitor} #{server_mode}", :tag => "#{params[:output]}"
       #session[:process_id] = Bj.table.job.find(process[0].id)
       #session[:output] = params[:output]
 			#f = IO.popen("script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection}")			
