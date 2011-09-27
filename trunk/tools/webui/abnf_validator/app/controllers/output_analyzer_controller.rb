@@ -60,6 +60,7 @@ class OutputAnalyzerController < ApplicationController
 		@simulation_selected=params[:output]
 		sims = Simulation.find_all_by_output(@simulation_selected)
 		@simulation = sims.first
+		@testcase = @simulation.testcases[params[:testcase_id].to_i] unless params[:testcase_id] == nil
 		render :partial => "testcase_list"
 	end
 	

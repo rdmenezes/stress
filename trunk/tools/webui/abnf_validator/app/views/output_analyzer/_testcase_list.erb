@@ -45,6 +45,9 @@ div.frames-box-inner{
 	<td>
 	<div  class="frames-box">
 	<div id="frames" class="frames-box-inner">
+		<% if @testcase != nil %>
+		<%= render :partial => 'frames_list' %>
+		<% end %>
 	</div>
 	</div>
 	</td>
