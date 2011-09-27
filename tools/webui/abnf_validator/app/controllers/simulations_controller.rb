@@ -48,9 +48,14 @@ class SimulationsController < ApplicationController
 			if params[:monitor] == "true"
 				monitor = "-M"
 			end
-      process = Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection} #{monitor}", :tag => "#{session[:username]},#{session[:editor_filename]},#{params[:output]}"
-      session[:process_id] = Bj.table.job.find(process[0].id)
-      session[:output] = params[:output]
+      simulation = Simulation.new_simulation(nil, session[:username], session[:editor_filename], params[:output])
+      
+      ## TAG FIELD CONTAINS THE OUTPUT DIRECTORY, IT'S THE FOREIGN KEY TO SIMULATIONS TABLE, SO IF YOU NEED TO USE BJ IN ANOTHER
+      ## PART OF THE PROJECT YOU CAN'T USE TAG
+      
+      process = Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection} #{monitor}", :tag => "#{params[:output]}"
+      #session[:process_id] = Bj.table.job.find(process[0].id)
+      #session[:output] = params[:output]
 			#f = IO.popen("script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection}")			
 			#puts "script/stress -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/"
 			#stdin, stdout, stderr, exec = Open3.popen3('script/stress -a script/temp2 -d 127.0.0.1 -p 110 -o results/risultato.xml')
@@ -75,11 +80,11 @@ class SimulationsController < ApplicationController
 		begin
 			simulation = Simulation.find(params[:id])
 			output = simulation.output
-			job1 = Bj.table.job.find(:all, :conditions => ["tag like ?", "%,#{output}%"])
+			job1 = Bj.table.job.find(:all, :conditions => ["tag = ?", "#{output}"])
 			puts job1.class
 			puts job1.length
 			puts job1.inspect
-			job2 = Bj.table.job_archive.find(:all, :conditions => ["tag like ?", "%,#{output}%"])
+			job2 = Bj.table.job_archive.find(:all, :conditions => ["tag = ?", "#{output}"])
 			if job1.length != 0
 				job1[0].delete
 			end
@@ -113,11 +118,11 @@ class SimulationsController < ApplicationController
 		render :partial => "file_content"
 	end
 	
-	def set_pid
-		process = Bj.table.job.find(session[:process_id].id)
-		simulation = Simulation.new_simulation(process.pid, session[:username], session[:editor_filename], session[:output])
-		render :text => ""
-	end
+#	def set_pid
+#		process = Bj.table.job.find(session[:process_id].id)
+#		simulation = Simulation.new_simulation(process.pid, session[:username], session[:editor_filename], session[:output])
+#		render :text => ""
+#	end
 	
 #	def indent_output
 #		file = File.new(params[:file], "r").read
