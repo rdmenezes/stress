@@ -56,7 +56,7 @@ class SimulationsController < ApplicationController
       ## TAG FIELD CONTAINS THE OUTPUT DIRECTORY, IT'S THE FOREIGN KEY TO SIMULATIONS TABLE, SO IF YOU NEED TO USE BJ IN ANOTHER
       ## PART OF THE PROJECT YOU CAN'T USE TAG
       
-      process = Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection} #{monitor} #{server_mode}", :tag => "#{params[:output]}"
+      process = Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection} #{monitor} #{server}", :tag => "#{params[:output]}"
       #session[:process_id] = Bj.table.job.find(process[0].id)
       #session[:output] = params[:output]
 			#f = IO.popen("script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection}")			
