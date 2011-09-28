@@ -91,11 +91,13 @@ void TcpServerSocket::reconnect(){
 };
 
 int TcpServerSocket::send(std::vector<uint8_t>& data_to_send){
+	int n= -1;
 	try{
-		socket.send(boost::asio::buffer(data_to_send));
+		n=socket.send(boost::asio::buffer(data_to_send));
 	}catch(boost::system::system_error& se){
 		std::cerr <<"TcpSocket::send(): "<< se.what() << std::endl;
 	}
+	return n;
 };
 
 int TcpServerSocket::read(std::vector<uint8_t>& data_to_read){

@@ -45,7 +45,7 @@ State* CeilDivideCommand::runAction(Composite* c){
 		denominator = (float)result[2]->getIntegerValue();
 
 	float res = ceil(numerator / denominator);
-
+	std::cout << res << " = " << numerator << " / " << denominator << std::endl;
 	ret = new ValueIntState(c->getId());
 	ret->setIntegerValue((int)res);
 

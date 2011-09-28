@@ -56,11 +56,13 @@ TcpSocket::~TcpSocket(){
 };
 
 int TcpSocket::send(std::vector<uint8_t>& data_to_send){
+	int n= -1;
 	try{
-		socket.send(boost::asio::buffer(data_to_send));
+		n=socket.send(boost::asio::buffer(data_to_send));
 	}catch(boost::system::system_error& se){
 		std::cerr <<"TcpSocket::send(): "<< se.what() << std::endl;
 	}
+	return n;
 };
 int TcpSocket::read(std::vector<uint8_t>& data_to_read){
 	uint8_t data[2049];
