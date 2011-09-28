@@ -136,8 +136,14 @@ void TestCaseManager::updateInjectorState(){
 void TestCaseManager::resetVariable(){
 	std::map<std::string, State*>::iterator it;
 	std::cout << "Used variables: " << std::endl;
-	for(it=variables.begin(); it!=variables.end(); it++)
+	for(it=variables.begin(); it!=variables.end(); it++){
 		std::cout<< "        " <<(*it).first << " -> " << (*it).second->getStringValue() << std::endl;
+		std::cout << " ( ";
+		std::string res = (*it).second->getStringValue();
+		for( int i=0; i<res.length(); i++ )
+			std::cout << std::hex << "0x" << int(res[i]) << " " << std::dec;
+		std::cout << ")" << std::endl;
+		}
 	variables.clear();
 };
 
