@@ -26,7 +26,9 @@ UdpSocket::UdpSocket() : 	Socket(), io_service(), receiver_endpoint(),
 };
 
 int UdpSocket::send(std::vector<uint8_t>& data_to_send){
-	socket.send_to(boost::asio::buffer(data_to_send), receiver_endpoint);
+	int n=-1;
+	n=socket.send_to(boost::asio::buffer(data_to_send), receiver_endpoint);
+	return n;
 };
 
 int UdpSocket::read(std::vector<uint8_t>& data_to_read){
@@ -80,8 +82,8 @@ void UdpSocket::reconnect(){
 bool UdpSocket::check(){
 	struct msghdr msg;
 	int sock = socket.native();
-	
-	write(sock, NULL, 0);
+	int n=-1;
+	n=write(sock, NULL, 0);
 	recvmsg(sock, &msg, 0);
 	return true;
 };
