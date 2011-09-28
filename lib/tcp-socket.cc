@@ -25,7 +25,7 @@ TcpSocket::TcpSocket() :
 		//option.size(sizeof(unsigned short));
 		//socket.set_option(option);
 
-		socket.open(boost::asio::ip::tcp::v4());
+		//socket.open(boost::asio::ip::tcp::v4());
 		try{
 			boost::asio::socket_base::linger option(true, 2);
 			socket.set_option(option);
@@ -33,7 +33,7 @@ TcpSocket::TcpSocket() :
 			std::cerr << "TcpSocket::TcpSocket(): Cannot set Timeout because: " << e.what() << std::endl;
 		}
 
-		socket.connect(receiver_endpoint);
+		//socket.connect(receiver_endpoint);
 	} catch (std::exception& e) {
 		std::cerr << "TcpSocket::TcpSocket(): " << e.what() << std::endl;
 		exit(-1);
@@ -95,7 +95,8 @@ bool TcpSocket::check(){
 
 void TcpSocket::reconnect(){
 	try{
-		socket.close();
+		if(check())
+			socket.close();
 		socket.open(boost::asio::ip::tcp::v4());
 		socket.connect(receiver_endpoint);
 	} catch      (std::exception& e) {

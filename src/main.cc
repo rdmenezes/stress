@@ -52,10 +52,10 @@ int main(int argc, char* argv[]){
 		std::cerr << "EXEC "<< u64 ;
 		int num_run = TestCaseManager::getInstance()->getRun(u64);
 		for(int i = 0; i< num_run; i++){
-			if(Configurator::getInstance()->getMonitor())
-				TestCaseManager::getInstance()->sendNotificationStartTestCase();
 			std::cerr << std::endl<<" run " << i << std::endl;
 			SocketFactory::getInstance()->reconnectSocket();
+			if(Configurator::getInstance()->getMonitor())
+				TestCaseManager::getInstance()->sendNotificationStartTestCase();
 			State* result = tree->runTest();
 
 			if(Configurator::getInstance()->getMonitor()){

@@ -20,6 +20,7 @@
 #include "value-hex-state.h"
 #include <string.h>
 #include <stdio.h>
+#include <math.h>
 
 ValueHexState::ValueHexState(int i) : ValueState(i){
 	composite_id = i;
@@ -70,5 +71,8 @@ std::string ValueHexState::getValueForLog(){
 };
 
 int ValueHexState::getIntegerValue(){
-	return (int)*raw_value;
+	int res=0;
+	for(int i = 0; i<raw_lenght; i++)
+		res+= (int)raw_value[raw_lenght-1-i] * pow(2,(8*i));
+	return res;
 };

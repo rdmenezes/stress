@@ -25,3 +25,5 @@
 #include<u-pause-command.h>
 #include<length-command.h>
 #include<memorize-command.h>
+#include<repeat-command.h>
+#include<ceildivide-command.h>
