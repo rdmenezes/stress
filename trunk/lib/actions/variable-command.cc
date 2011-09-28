@@ -62,7 +62,7 @@ State* VariableCommand::runAction(Composite* c){
 		uint8_t* u8p =(uint8_t*) data + result[2]->getIntegerValue() ;
 
 		res->setRawValue(u8p, result[3]->getIntegerValue());
-		std::cout << result[1]->getStringValue() <<" variabile lunga "<<      result[3]->getIntegerValue() << " " << result[3]->getValueForLog() << std::endl;
+		//std::cout << result[1]->getStringValue() <<" variabile lunga "<<      result[3]->getIntegerValue() << " " << result[3]->getValueForLog() << std::endl;
 		TestCaseManager::getInstance()->setVariable(result[1]->getStringValue(), res);			
 	}
 	*res << result;
