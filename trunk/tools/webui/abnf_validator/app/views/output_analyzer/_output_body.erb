@@ -20,7 +20,12 @@
 							:before => "loading('output_analyzer_result')",
 							:update => "output_analyzer_result"} %>
 	</th>
-	<th style="text-align:center" width="15%">Sanity check</th>
+	<th style="text-align:center" width="15%">
+		<%= link_to_remote "SOM Predictor",
+							{:url => { :controller => :output_analyzer, :action => :get_som_menu, :output => @simulation_selected}, 
+							:before => "loading('output_analyzer_result')",
+							:update => "output_analyzer_result"} %>
+	</th>
 	<th style="text-align:center" width="10%"></th>
 	<tr>
 	<td colspan="7">

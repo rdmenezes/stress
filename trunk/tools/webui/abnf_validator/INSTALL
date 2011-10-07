@@ -4,3 +4,10 @@ gem: 	fattr 2.2.0
 		chronic 0.6.2
 		text 0.2.0
 		fileutils
+		rack 1.0.0
+		rubyzip (0.9.4)
+		nokogiri 1.5.0
+		
+		som:
+		som 0.0.4
+		normalizer 0.0.1
