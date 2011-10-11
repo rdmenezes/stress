@@ -22,7 +22,7 @@ Classe <%= id %>: <%= classes[id].inspect %>
 <% 
 	similiar = classes.select{|x| x.include?(0)} 
 	unless similiar.empty? %>
-Communication with anomaly and looks like correct one:
+Foulty communication and looks like correct one:
 
 <% similiar.each do|t| 
 	t.each do |c|
@@ -40,7 +40,7 @@ end %>
 <%
 unless classes.empty?  %>
 
-Communication with anomaly with strange value:
+Faulty communication with strange value:
 
 <% classes.each do |t| 
 	t.each do |c| %>
