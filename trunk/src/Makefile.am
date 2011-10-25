@@ -7,7 +7,8 @@ LDADD=  ../lib/libstress.a ../lib/actions/libactions.a ../lib/state/libstate.a
 
 #AM_CPPFLAGS=-I../lib -I../lib/state -I../lib/actions 
 AM_CPPFLAGS=-I@top_srcdir@/lib -I@top_srcdir@/lib/state -I@top_srcdir@/lib/actions
-AM_LDFLAGS=-L../lib -L../lib/state -L../lib/actions -lc -lboost_system -lboost_iostreams -lcrypto
+AM_LDFLAGS=-L../lib -L../lib/state -L../lib/actions -lc -lboost_system \
+				-lboost_iostreams -lcrypto -lpthread
 
 scanner.hh scanner.cc: scanner.ll
 	$(LEX) --header-file=scanner.h --outfile=scanner.cc scanner.ll
