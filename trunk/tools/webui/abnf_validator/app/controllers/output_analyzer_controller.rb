@@ -87,6 +87,7 @@ class OutputAnalyzerController < ApplicationController
 		sims = Simulation.find_all_by_output(@simulation_selected)
 		@simulation = sims.first
 		@simulation.testcases.destroy_all
+		session[:messages] = {:type => "ok", :msg => "Cache deleted!"}
 		render :text => 'Cache for simulation '+@simulation_selected.to_s+' clean!'
 	end
 	
