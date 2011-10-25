@@ -39,6 +39,8 @@ class SimulationsController < ApplicationController
 			raise Exceptions::FileExists if File.exist? "results/#{params[:output]}"
 			#raise Exceptions::InvalidIPProvided unless params[:address] =~ /\A(?:25[0-5]|(?:2[0-4]|1\d|[1-9])?\d)(?:\.(?:25[0-5]|(?:2[0-4]|1\d|[1-9])?\d)){3}\z/
 			raise Exceptions::InvalidPortProvided if params[:port].to_i < 1 or params[:port].to_i > 65535
+			raise Exceptions::InvalidTimeoutValueProvided unless is_numeric?(params[:timeout])
+			raise Exceptions::InvalidDelayValueProvided unless is_numeric?(params[:delay])
 			File.open("script/temp2", "w") {|f| f.write(params[:abnf])}
 			Dir.mkdir("results/" + params[:output])
 			autoinjection = ""
@@ -56,7 +58,7 @@ class SimulationsController < ApplicationController
       ## TAG FIELD CONTAINS THE OUTPUT DIRECTORY, IT'S THE FOREIGN KEY TO SIMULATIONS TABLE, SO IF YOU NEED TO USE BJ IN ANOTHER
       ## PART OF THE PROJECT YOU CAN'T USE TAG
       
-      process = Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection} #{monitor} #{server}", :tag => "#{params[:output]}"
+      process = Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} -D #{params[:delay]} -t #{params[:timeout]} #{autoinjection} #{monitor} #{server}", :tag => "#{params[:output]}"
       #session[:process_id] = Bj.table.job.find(process[0].id)
       #session[:output] = params[:output]
 			#f = IO.popen("script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection}")			
@@ -182,5 +184,13 @@ class SimulationsController < ApplicationController
 #		end
 #		return @file_content
 #	end
-
+	def is_numeric?(s)
+		begin
+			Float(s)
+		rescue
+			false # not numeric
+		else
+			true # numeric
+		end
+	end
 end
