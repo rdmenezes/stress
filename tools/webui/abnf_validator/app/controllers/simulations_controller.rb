@@ -33,7 +33,7 @@ class SimulationsController < ApplicationController
 	end
 
 	#LAUNCH SIMULATION
-	def lunch_simulation
+	def launch_simulation
 		begin
 			raise Exceptions::MissingParameters if (params[:address].length < 1 and params[:server_mode] != "true") or params[:port].length < 1 or params[:output].length < 1
 			raise Exceptions::FileExists if File.exist? "results/#{params[:output]}"
