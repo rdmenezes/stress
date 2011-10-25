@@ -7,7 +7,7 @@ TestControl::TestControl() : next_id(0){};
 TestControl::~TestControl(){};
 
 TestControl* TestControl::getInstance(){
-	if(_instance.get() == NULL){
+	if(_instance.get() == 0){
 		std::auto_ptr<TestControl> tmp(new TestControl());
 		_instance = tmp;
 	}
