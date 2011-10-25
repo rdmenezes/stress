@@ -14,6 +14,12 @@
 		<td>Type:</td><td><%= select_tag "type", "<option>xml</option><option>dot</option>" %></td>
 	</tr>
 	<tr>
+		<td>Timeout (msec):</td><td><%= text_field_tag :timeout,2000 %></td>
+	</tr>
+	<tr>
+		<td>Delay (msec):</td><td><%= text_field_tag :delay,250 %></td>
+	</tr>
+	<tr>
 		<td>Autoinject:</td><td><%= check_box_tag 'autoinjection' %></td>
 	</tr>
 	<tr>
@@ -62,7 +68,16 @@
 					$.ajax({
 						type: 'post',
 						url: '/simulations/launch_simulation/',
-						data: ({address : $("#address").val(), port : $("#port").val(), output : $("#output").val(), abnf : $("#editor_textarea").val(), type : $("#type").val(), autoinjection : $("#autoinjection")[0].checked, monitor : $("#monitor")[0].checked, server_mode : $("#server_mode")[0].checked}),
+						data: ({address : $("#address").val(), 
+								port : $("#port").val(), 
+								output : $("#output").val(), 
+								abnf : $("#editor_textarea").val(), 
+								type : $("#type").val(), 
+								timeout : $("#timeout").val(),
+								delay : $("#delay").val(),
+								autoinjection : $("#autoinjection")[0].checked, 
+								monitor : $("#monitor")[0].checked, 
+								server_mode : $("#server_mode")[0].checked}),
 						dataType: 'html',
 						complete: function(){
 							notify();
