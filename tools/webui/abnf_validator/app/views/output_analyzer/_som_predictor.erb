@@ -1,4 +1,4 @@
-<h1>Self Orginizing Map prediction</h1>
+<h1>Self Organizing Map prediction</h1>
 
 <% 
 	classes = Array.new
@@ -22,7 +22,7 @@ Classe <%= id %>: <%= classes[id].inspect %>
 <% 
 	similiar = classes.select{|x| x.include?(0)} 
 	unless similiar.empty? %>
-Foulty communication and looks like correct one:
+Faulty communication and looks like correct one:
 
 <% similiar.each do|t| 
 	t.each do |c|
