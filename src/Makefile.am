@@ -3,12 +3,13 @@ BUILT_SOURCES = parser.h
 AM_LFLAGS= --header-file=scanner.h --outfile=scanner.cc
 AM_YFLAGS= -d -p parser
 
-LDADD=  ../lib/libstress.a ../lib/actions/libactions.a ../lib/state/libstate.a
+LDADD=  ../lib/libstress.a ../lib/actions/libactions.a ../lib/state/libstate.a \
+	-lc -lboost_system -lboost_iostreams -lcrypto -lpthread -lboost_system
 
 #AM_CPPFLAGS=-I../lib -I../lib/state -I../lib/actions 
 AM_CPPFLAGS=-I@top_srcdir@/lib -I@top_srcdir@/lib/state -I@top_srcdir@/lib/actions
 AM_LDFLAGS=-L../lib -L../lib/state -L../lib/actions -lc -lboost_system \
-				-lboost_iostreams -lcrypto -lpthread
+				-lboost_iostreams -lcrypto -lpthread -lboost_system
 
 scanner.hh scanner.cc: scanner.ll
 	$(LEX) --header-file=scanner.h --outfile=scanner.cc scanner.ll
@@ -20,8 +21,8 @@ bin_PROGRAMS = stress
 
 stress_SOURCES =	parser.yy scanner.ll main.cc \
 						ABNFParser.cc \
-                                                AnomalyInjector.cc \
-                                                InjectorPerformer.cc \
+                  AnomalyInjector.cc \
+                  InjectorPerformer.cc \
 						driver.cc \
 						symbol.cc \
 						log.cc  \
@@ -31,8 +32,8 @@ stress_SOURCES =	parser.yy scanner.ll main.cc \
 						txt-output.cc
 stress_HEADERS =  ABNFParser.h \
 						driver.h \
-                                                AnomalyInjector.h \
-                                                InjectorPerformer.h \
+                  AnomalyInjector.h \
+                  InjectorPerformer.h \
 						symbol.h \
 						log.h   \
 						output.h   \
