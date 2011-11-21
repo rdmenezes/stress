@@ -126,14 +126,17 @@ class OutputAnalyzerController < ApplicationController
 		puts @data.inspect
 		
 		min, max = Normalizer.find_min_and_max(@data)
+		puts min.to_s+" "+max.to_s
+		puts min.inspect
+		puts max.inspect
 		normalizer = Normalizer.new(:min => min, :max => max)
 		@normalized_data = []
 		@data.each do |n|
 			@normalized_data << normalizer.normalize(n) unless n == nil
 		end
-		
+		puts @normalized_data.inspect
 		@som = SOM.new(@normalized_data, :nodes => 3, :dimensions => 2+(number_of_read_frame*2))
-		@som.train	
+		@som.train unless @normalized_data.size <= 1
 		render :partial => "som_predictor"
 	end
 	

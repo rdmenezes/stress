@@ -114,7 +114,7 @@ class XMLTestcase < Nokogiri::XML::SAX::Document
 	end
 
 	def write_fault
-		@testcase.frames.last.faults << Fault.new ( :value => @anomaly , :number_of_value => @anomaly_number_of_value) unless @anomaly == nil
+		@testcase.frames.last.faults << Fault.new( :value => @anomaly , :number_of_value => @anomaly_number_of_value) unless @anomaly == nil
 		@testcase.frames.last.save
 		@anomaly_number_of_value = nil
 		@anomaly = nil

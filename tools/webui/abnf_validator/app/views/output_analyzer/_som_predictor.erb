@@ -1,6 +1,7 @@
 <h1>Self Organizing Map prediction</h1>
 
 <% 
+unless @normalized_data.size <= 1
 	classes = Array.new
 	@normalized_data.each_index do |i| 
 		id = @som.classify(@normalized_data[i]).first
@@ -52,6 +53,12 @@ Faulty communication with strange value:
 
 <% 		end
 	end 
+end
+
+else # unless @normalized_data
+%>
+No enough data to perform SOM analysis
+<%
 end
 %>
 <br/>
