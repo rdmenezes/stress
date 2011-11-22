@@ -1,7 +1,7 @@
 <h1>Self Organizing Map prediction</h1>
 
 <% 
-unless @normalized_data.size <= 1
+unless @normalized_data == nil || @normalized_data.size <= 1
 	classes = Array.new
 	@normalized_data.each_index do |i| 
 		id = @som.classify(@normalized_data[i]).first
