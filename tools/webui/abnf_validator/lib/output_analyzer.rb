@@ -94,7 +94,7 @@ class XMLTestcase < Nokogiri::XML::SAX::Document
 			else
 				l_dist = 0
 				#l_dist = @simulation.testcases.first.frames[position].data.size unless @simulation.testcases.first.frames[position] == nil
-				@testcase.frames << NoResponse.new(:position => position, :l_distance => l_dist)
+				@testcase.frames << NoResponse.new(:data => data, :position => position, :l_distance => l_dist)
 				@testcase.save
 			end
 		when "monitor"
