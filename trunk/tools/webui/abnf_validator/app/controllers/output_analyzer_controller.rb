@@ -111,32 +111,35 @@ class OutputAnalyzerController < ApplicationController
 		
 		@data = Array.new
 		@data_indexes = Array.new
-		@l_distance.each_index do |i|
-			@data << [@l_distance[i].l_distance, @rtts[i][number_of_read_frame].value] unless @l_distance[i] == nil
-			@data_indexes << i unless @l_distance[i] == nil
-		end
 		
-		for n in 0...number_of_read_frame do
-			build_l_distance(  @read_frames[n].position )
-			@data_indexes.each do |i|
-				@data[@data_indexes.index(i)] << @l_distance[i].l_distance unless @l_distance[i] == nil
-				@data[@data_indexes.index(i)] << @rtts[i][n].value unless @l_distance[i] == nil
+		if number_of_read_frame != nil
+			@l_distance.each_index do |i|
+				@data << [@l_distance[i].l_distance, @rtts[i][number_of_read_frame].value] unless @l_distance[i] == nil
+				@data_indexes << i unless @l_distance[i] == nil
 			end
-		end
-		puts @data.inspect
 		
-		min, max = Normalizer.find_min_and_max(@data)
-		puts min.to_s+" "+max.to_s
-		puts min.inspect
-		puts max.inspect
-		normalizer = Normalizer.new(:min => min, :max => max)
-		@normalized_data = []
-		@data.each do |n|
-			@normalized_data << normalizer.normalize(n) unless n == nil
+			for n in 0...number_of_read_frame do
+				build_l_distance(  @read_frames[n].position )
+				@data_indexes.each do |i|
+					@data[@data_indexes.index(i)] << @l_distance[i].l_distance unless @l_distance[i] == nil
+					@data[@data_indexes.index(i)] << @rtts[i][n].value unless @l_distance[i] == nil
+				end
+			end
+			puts @data.inspect
+		
+			min, max = Normalizer.find_min_and_max(@data)
+			puts min.to_s+" "+max.to_s
+			puts min.inspect
+			puts max.inspect
+			normalizer = Normalizer.new(:min => min, :max => max)
+			@normalized_data = []
+			@data.each do |n|
+				@normalized_data << normalizer.normalize(n) unless n == nil
+			end
+			puts @normalized_data.inspect
+			@som = SOM.new(@normalized_data, :nodes => 3, :dimensions => 2+(number_of_read_frame*2))
+			@som.train unless @normalized_data.size <= 1
 		end
-		puts @normalized_data.inspect
-		@som = SOM.new(@normalized_data, :nodes => 3, :dimensions => 2+(number_of_read_frame*2))
-		@som.train unless @normalized_data.size <= 1
 		render :partial => "som_predictor"
 	end
 	
