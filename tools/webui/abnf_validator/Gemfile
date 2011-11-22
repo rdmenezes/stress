@@ -19,3 +19,5 @@ gem "normalizer", 	"0.0.1"
 gem "rails", "2.3.4"
 
 gem "mysql"
+gem "savon"
+gem "bj"
