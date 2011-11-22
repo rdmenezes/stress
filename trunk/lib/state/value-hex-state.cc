@@ -60,8 +60,10 @@ std::string ValueHexState::getValueForLog(){
 			ss << "%x";
 			sprintf(ptr,"%02x", getRawValue()[i]);
 			ss << ptr << "";
-		}else if(c == 34) // quando ci sono le virgolette dobbiamo mettere un backslash davanti
-			ss << "\\" << (char)c;
+		}
+		// rimosso (perchè ce l'ho messo?!?!?!)
+		//else if(c == 34) // quando ci sono le virgolette dobbiamo mettere un backslash davanti
+		//	ss << "\\" << (char)c;
 		else
 			parseChar( (const char*)&c, &ss);
 //		sprintf(ptr,"%02x", getRawValue()[i]);

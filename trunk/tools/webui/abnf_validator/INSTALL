@@ -13,3 +13,16 @@ Then run:
 	bundle install
 
 
+deb packages
+
+bison 
+flex
+libboost-all-dev
+
+#ruby mysql
+libmysqlclient-dev
+
+#nokogiri
+libxml2-dev
+libxslt1-dev
+
