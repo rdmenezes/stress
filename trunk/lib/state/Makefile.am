@@ -20,8 +20,8 @@ libstate_a_SOURCES = 	ok-state.cc \
 								send-packet-state.cc \
 								monitor-report.h \
 								monitor-report.cc
-libstate_a_HEADERS = 	ok-state.h \
-								state.h 
+#libstate_a_HEADERS = 	ok-state.h \
+#								state.h 
 
 
 AM_CPPFLAGS = -I@top_srcdir@/lib

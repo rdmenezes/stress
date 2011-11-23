@@ -33,19 +33,19 @@ libstress_a_SOURCES = 	composite.cc \
 								tcp-server-socket.h \
 								tcp-server-socket.cc
 
-libstress_a_HEADERS = 	composite-factory.h \
-								composite.h \
-								or-composite.h \
-								repeat-composite.h \
-								leaf.h \
-								configurator.h \
-								branch.h \
-								socket-factory.h \
-								socket.h \
-								tcp-socket.h \
-								udp-socket.h \
-								raw-socket.h \
-								test-control.h
+#libstress_a_HEADERS = 	composite-factory.h \
+#								composite.h \
+#								or-composite.h \
+#								repeat-composite.h \
+#								leaf.h \
+#								configurator.h \
+#								branch.h \
+#								socket-factory.h \
+#								socket.h \
+#								tcp-socket.h \
+#								udp-socket.h \
+#								raw-socket.h \
+#								test-control.h
 
 SUBDIRS = actions state
 
