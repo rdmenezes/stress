@@ -30,7 +30,7 @@ ActionFactory* ActionFactory::getInstance(){
 uint64_t ActionFactory::getNextInjectionId(){
 	uint64_t n = next_injection_id;
 	if(n == UINT64_MAX){
-		std::cerr<< "Maximum number og fault reached!"<< std::endl;
+		//std::cerr << "Maximum number of fault reached! " << next_injection_id << std::endl;
 		return n;
 	}
 	next_injection_id <<=1;
@@ -42,7 +42,7 @@ Action* ActionFactory::getAction(RepeatComposite* orcomp){
 }
 
 Action* ActionFactory::getAction(OrComposite* orcomp){
-	InjectAction* inj = new InjectAction(getNextInjectionId ());
+	InjectAction* inj = new InjectAction(getNextInjectionId());
 	//TestCaseManager::getInstance()->setSonsNumber(inj->getInjectionId(), orcomp->getSons().size());
 	return inj;
 }
