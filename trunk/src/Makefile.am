@@ -30,14 +30,14 @@ stress_SOURCES =	parser.yy scanner.ll main.cc \
 						xml-output.cc\
 						output.cc  \
 						txt-output.cc
-stress_HEADERS =  ABNFParser.h \
-						driver.h \
-                  AnomalyInjector.h \
-                  InjectorPerformer.h \
-						symbol.h \
-						log.h   \
-						output.h   \
-						main.cc
+#stress_HEADERS =  ABNFParser.h \
+#						driver.h \
+#                  AnomalyInjector.h \
+#                  InjectorPerformer.h \
+#						symbol.h \
+#						log.h   \
+#						output.h   \
+#						main.cc
 
 #ABNFParser_SOURCES = parser.yy scanner.ll ABNFParser.cc \
 #							driver.cc \
