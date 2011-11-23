@@ -51,15 +51,15 @@ libactions_a_SOURCES = 	action.cc \
 								ceildivide-command.h \
 								repeat-command.cc \
 								repeat-command.h
-libactions_a_HEADERS = 	action.h \
-								or-action.h \
-								repeat-action.h \
-								action-factory.h \
-								return-action.h \
-								send-action.h \
-								udp-send-action.h \
-								tcp-send-action.h \
-								raw-send-action.h 
+#libactions_a_HEADERS = 	action.h \
+#								or-action.h \
+#								repeat-action.h \
+#								action-factory.h \
+#								return-action.h \
+#								send-action.h \
+#								udp-send-action.h \
+#								tcp-send-action.h \
+#								raw-send-action.h 
 
 AM_CPPFLAGS = -I@top_srcdir@/lib -I@top_srcdir@/lib/state
 
