@@ -36,7 +36,7 @@ class SimulationsController < ApplicationController
 	def launch_simulation
 		begin
 			raise Exceptions::MissingParameters if (params[:address].length < 1 and params[:server_mode] != "true") or params[:port].length < 1 or params[:output].length < 1
-			raise Exceptions::FileExists if File.exist? "results/#{params[:output]}"
+			raise Exceptions::FileExists if ( File.exist? "results/#{params[:output]}" && params[:overwrite] != "true" )
 			#raise Exceptions::InvalidIPProvided unless params[:address] =~ /\A(?:25[0-5]|(?:2[0-4]|1\d|[1-9])?\d)(?:\.(?:25[0-5]|(?:2[0-4]|1\d|[1-9])?\d)){3}\z/
 			raise Exceptions::InvalidPortProvided if params[:port].to_i < 1 or params[:port].to_i > 65535
 			raise Exceptions::InvalidTimeoutValueProvided unless is_numeric?(params[:timeout])
@@ -45,11 +45,17 @@ class SimulationsController < ApplicationController
 			session[:address] = params[:address]
 			session[:port] = params[:port]
 			session[:output] = params[:output]
+			session[:overwrite] = params[:overwrite]
 			session[:timeout] = params[:timeout]
 			session[:delay] = params[:delay]
 			session[:autoinjection] = params[:autoinjection]
 			session[:monitor] = params[:monitor]
-					
+			
+			if params[:overwrite] == "true"
+				simulation_to_remove = Simulation.find_by_output( params[:output] )
+				del_sim( simulation_to_remove.id, params[:output] )
+			end
+
 			File.open("script/temp2", "w") {|f| f.write(params[:abnf])}
 			Dir.mkdir("results/" + params[:output])
 			autoinjection = ""
@@ -90,8 +96,7 @@ class SimulationsController < ApplicationController
 		render :text => "ok"
 	end
 	
-	def delete_simulation
-		begin
+	def del_sim(id, output)
 			simulation = Simulation.find(params[:id])
 			output = simulation.output
 			job1 = Bj.table.job.find(:all, :conditions => ["tag = ?", "#{output}"])
@@ -107,6 +112,12 @@ class SimulationsController < ApplicationController
 			end
 			Simulation.delete(params[:id])
 			FileUtils.rm_rf 'results/'+params[:output]
+	end
+
+
+	def delete_simulation
+		begin
+			del_sim( params[:id], params[:output] )
 			session[:messages] = {:type => "ok", :msg => "Simulation deleted!"}
 		end
 		redirect_to :action => :update_simulations_list
