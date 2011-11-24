@@ -10,14 +10,16 @@ end %>
 <%= data %>
 <br>
 
+<% unless @frame.faults.size == 0 %>
 <table>
-<th>Faults:</th><th></th>
+<th>Injected faults:</th><th></th>
 <% @frame.faults.each do |f| %>
 <tr>
-<td></td>	<td><%= f.value %></td>
+<td>*</td>	<td><%= f.value %></td>
 </tr>
 <% end %>
 </table>
 <br>
+<% end %>
 
 	
