@@ -41,6 +41,15 @@ class SimulationsController < ApplicationController
 			raise Exceptions::InvalidPortProvided if params[:port].to_i < 1 or params[:port].to_i > 65535
 			raise Exceptions::InvalidTimeoutValueProvided unless is_numeric?(params[:timeout])
 			raise Exceptions::InvalidDelayValueProvided unless is_numeric?(params[:delay])
+			
+			session[:address] = params[:address]
+			session[:port] = params[:port]
+			session[:output] = params[:output]
+			session[:timeout] = params[:timeout]
+			session[:delay] = params[:delay]
+			session[:autoinjection] = params[:autoinjection]
+			session[:monitor] = params[:monitor]
+					
 			File.open("script/temp2", "w") {|f| f.write(params[:abnf])}
 			Dir.mkdir("results/" + params[:output])
 			autoinjection = ""
@@ -53,14 +62,14 @@ class SimulationsController < ApplicationController
 			if params[:server_mode] == "true"
 				server = "-l"
 			end
-      simulation = Simulation.new_simulation(nil, session[:username], session[:editor_filename], params[:output])
+			simulation = Simulation.new_simulation(nil, session[:username], session[:editor_filename], params[:output])
       
-      ## TAG FIELD CONTAINS THE OUTPUT DIRECTORY, IT'S THE FOREIGN KEY TO SIMULATIONS TABLE, SO IF YOU NEED TO USE BJ IN ANOTHER
-      ## PART OF THE PROJECT YOU CAN'T USE TAG
+			## TAG FIELD CONTAINS THE OUTPUT DIRECTORY, IT'S THE FOREIGN KEY TO SIMULATIONS TABLE, SO IF YOU NEED TO USE BJ IN ANOTHER
+			## PART OF THE PROJECT YOU CAN'T USE TAG
       
-      process = Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} -D #{params[:delay]} -t #{params[:timeout]} #{autoinjection} #{monitor} #{server}", :tag => "#{params[:output]}"
-      #session[:process_id] = Bj.table.job.find(process[0].id)
-      #session[:output] = params[:output]
+			process = Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} -D #{params[:delay]} -t #{params[:timeout]} #{autoinjection} #{monitor} #{server}", :tag => "#{params[:output]}"
+			#session[:process_id] = Bj.table.job.find(process[0].id)
+			#session[:output] = params[:output]
 			#f = IO.popen("script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection}")			
 			#puts "script/stress -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/"
 			#stdin, stdout, stderr, exec = Open3.popen3('script/stress -a script/temp2 -d 127.0.0.1 -p 110 -o results/risultato.xml')
