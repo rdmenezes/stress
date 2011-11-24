@@ -8,7 +8,14 @@
 		<td>Port Nr.:</td><td><%= text_field_tag :port, session[:port] %></td>
 	</tr>
 	<tr>
-		<td>Output:</td><td><%= text_field_tag :output, session[:output] %></td>
+		<% 
+			checked = false 
+			checked = true if session[:overwrite] == "true"
+		%>
+		<td>Output:</br>
+			Overwrite? <%= check_box_tag 'overwrite' %>
+		</td>
+		<td><%= text_field_tag :output, session[:output] %></td>
 	</tr>
 	<tr>
 		<td>Type:</td><td><%= select_tag "type", "<option>xml</option><option>dot</option>" %></td>
@@ -75,6 +82,7 @@
 						data: ({address : $("#address").val(), 
 								port : $("#port").val(), 
 								output : $("#output").val(), 
+								overwrite : $("#overwrite")[0].checked, 
 								abnf : $("#editor_textarea").val(), 
 								type : $("#type").val(), 
 								timeout : $("#timeout").val(),
