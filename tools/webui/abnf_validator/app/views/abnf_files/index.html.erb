@@ -2,28 +2,32 @@
 <strong>Run stress simulation:</strong><br/><br/>
 <table>
 	<tr>
-		<td>Address:</td><td><%= text_field_tag :address %></td>
+		<td>Address:</td><td><%= text_field_tag :address, session[:address] %></td>
 	</tr>
 	<tr>
-		<td>Port Nr.:</td><td><%= text_field_tag :port %></td>
+		<td>Port Nr.:</td><td><%= text_field_tag :port, session[:port] %></td>
 	</tr>
 	<tr>
-		<td>Output:</td><td><%= text_field_tag :output %></td>
+		<td>Output:</td><td><%= text_field_tag :output, session[:output] %></td>
 	</tr>
 	<tr>
 		<td>Type:</td><td><%= select_tag "type", "<option>xml</option><option>dot</option>" %></td>
 	</tr>
 	<tr>
-		<td>Timeout (msec):</td><td><%= text_field_tag :timeout,2000 %></td>
+		<td>Timeout (msec):</td><td><%= text_field_tag :timeout, (2000 or session[:timeout]) %></td>
 	</tr>
 	<tr>
-		<td>Delay (msec):</td><td><%= text_field_tag :delay,250 %></td>
+		<td>Delay (msec):</td><td><%= text_field_tag :delay, (250 or session[:delay]) %></td>
 	</tr>
 	<tr>
-		<td>Autoinject:</td><td><%= check_box_tag 'autoinjection' %></td>
+		<% 
+			checked = false 
+			checked = true if session[:autoinjection] == "true"
+		%>
+		<td>Autoinject:</td><td><%= check_box_tag 'autoinjection', true, checked %></td>
 	</tr>
 	<tr>
-		<td>Monitor:</td><td><%= check_box_tag 'monitor' %></td>
+		<td>Monitor:</td><td><%= check_box_tag 'monitor', true, true %></td>
 	</tr>
 	<tr>
 		<td>Server:</td><td><%= check_box_tag 'server_mode' %></td>

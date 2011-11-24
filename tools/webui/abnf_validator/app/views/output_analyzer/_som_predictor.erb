@@ -15,14 +15,17 @@ Classe <%= id %>: <%= classes[id].inspect %>
 <% end %>
 <br/>
 <% 
+	while classes.index(nil)!= nil
+		classes.delete_at(classes.index(nil))
+	end
+	
 	classes.sort!{|x,y| x.size <=>y.size } 
+	similiar = classes.select{|x| x.include?(0)} 
 	classes.delete_at(-1) # delete more populate class
 %>
 <br/>
 
-<% 
-	similiar = classes.select{|x| x.include?(0)} 
-	unless similiar.empty? %>
+<% 	unless similiar.empty? %>
 Faulty communication and looks like correct one:
 
 <% similiar.each do|t| 

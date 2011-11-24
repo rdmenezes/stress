@@ -30,12 +30,9 @@
 	<tr>
 	<td colspan="7">
 	<div id="output_analyzer_result">
-		<ul>
-		<% @files.each do |f| %>
-		<li><%= link_to_remote (f.split("/").last), {:url => { :controller => :simulations, :action => :show_file_content, :file => f}, :update => 	"right_column", :method => :post} %></li>
-		<%= f %>
-		<% end %>
-		</ul>
+
+	<%= render :partial => "testcase_list" %>
+
 	</div>
 	</td>
 	</tr>
