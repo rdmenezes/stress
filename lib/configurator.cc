@@ -10,6 +10,7 @@ Configurator::Configurator() : abnf_file(""), output_file("/tmp/state"),
 mac(false), ip(false), udp(false), tcp(false),
 ip_src("127.0.0.1"), ip_dst("127.0.0.1"), type_output("xml"), dport(0),
 auto_inject(0),delay(250),monitor(0),timeout(2000),iface("mon0"),listen(false) {
+	ts_generator = new ExpTSGenerator();
 };
 
 Configurator* Configurator::getInstance() {
@@ -27,35 +28,39 @@ void Configurator::usage() {
     ss << "" << std::endl;
     ss << "--------------------------------------------------------------------------------" << std::endl;
     ss << "" << std::endl;
-    ss << "--abnf=FILENAME		-a FILENAME		Insert ABNF model file" << std::endl;
+    ss << "--abnf=FILENAME	 -a FILENAME		Insert ABNF model file" << std::endl;
     ss << "" << std::endl;
-    ss << "--destination IP	-d IP			Insert Destination IP Address" << std::endl;
-    ss << "--source IP		-s IP			Insert Source IP Address" << std::endl;
-    ss << "--port PORT		-p PORT			Insert Port Number" << std::endl;
-    ss << "--timeout N		-t N			Wait n msec for reading packets" << std::endl;
-    ss << "--iface IFACE	-i IFACE			Network interface used for RAW socket" << std::endl;
-    ss << "--listen			-l				Enable server mode" << std::endl;
+    ss << "--destination IP -d IP			Insert Destination IP Address" << std::endl;
+    ss << "--source IP	 -s IP			Insert Source IP Address" << std::endl;
+    ss << "--port PORT	 -p PORT			Insert Port Number" << std::endl;
+    ss << "--timeout N	 -t N			Wait n msec for reading packets" << std::endl;
+    ss << "--iface IFACE	 -i IFACE		Network interface used for RAW socket" << std::endl;
+    ss << "--listen	 -l			Enable server mode" << std::endl;
     ss << "" << std::endl;	
-    ss << "--help			-h 			Display this help " << std::endl;
-    ss << "--output FILENAME	-o FILENAME 		Insert output root filename" << std::endl;
-    ss << "--type			-O OUTPUT-TYPE		xml, dot [default: xml]" << std::endl;
+    ss << "--help		 -h 			Display this help " << std::endl;
+    ss << "--output FILENAME -o FILENAME 		Insert output root filename" << std::endl;
+    ss << "--type		 -O OUTPUT-TYPE		xml, dot [default: xml]" << std::endl;
     ss << "" << std::endl;
- 	 ss << "--monitor		-M			Activate observing modules" << std::endl;
-	 ss << "" << std::endl;
-	 ss << "--delay n		-D n			Delay n (msec) befare AND after a test case" << std::endl;
-	 ss << "" << std::endl;
-    ss << "--inject		-j MODE			Activate anomalies auto-injection. 0(none),1+(string),2+(hex),3+(dec),4+(bin)" << std::endl;
+ 	ss << "--monitor	 -M			Activate observing modules" << std::endl;
+	ss << "" << std::endl;
+	ss << "--delay n	 -D n			Delay n (msec) befare AND after a test case" << std::endl;
+	ss << "" << std::endl;
+    ss << "--inject	 -j MODE		Activate anomalies auto-injection. 0(none),1+(string),2+(hex),3+(dec),4+(bin)" << std::endl;
+	ss << "--generator	 -g GENERATOR		Select TestCase Generator:" << std::endl;
+	ss << "					(default) 0: Exponential Testcase generator (Max number of faults 64)" << std::endl;
+	ss << "					          1: Sequential Testcase generator (Enables only one fault each test case)" << std::endl;
     std::cout << ss.str();
     exit(0);
 };
 
 void Configurator::parseCmdLine(int argc, char* argv[]) {
     int opt = 1;
+	int ts_type = 0;
 
     while (opt > 0) {
         int option_index;
         std::stringstream ss;
-        opt = getopt_long(argc, argv, "a:miut:s:d:p:ho:O:j:D:Ml",
+        opt = getopt_long(argc, argv, "a:miut:s:d:p:ho:O:j:D:Mlg:",
                 long_options, &option_index);
 
         switch (opt) {
@@ -124,6 +129,15 @@ void Configurator::parseCmdLine(int argc, char* argv[]) {
 			case 'l':
 				listen = true;
                 std::cout << "Server Mode enabled!" << std::endl;
+				break;
+			case 'g':
+				ss.clear();
+				ss << optarg;
+				ss >> ts_type;
+				if(ts_type == 1){
+					delete ts_generator;
+					ts_generator = new SeqTSGenerator();
+				}
 				break;
             default:
                 break;

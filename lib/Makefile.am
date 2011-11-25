@@ -31,7 +31,9 @@ libstress_a_SOURCES = 	composite.cc \
 								sanity-check-monitor.h \
 								sanity-check-monitor.cc \
 								tcp-server-socket.h \
-								tcp-server-socket.cc
+								tcp-server-socket.cc \
+								ts-generator.h \
+								ts-generator.cc
 
 #libstress_a_HEADERS = 	composite-factory.h \
 #								composite.h \

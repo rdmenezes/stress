@@ -12,6 +12,7 @@
 #include<inject-action.h>
 #include<test-case-manager.h>
 #include <stdint.h>
+#include<ts-generator.h>
 
 ActionFactory* ActionFactory::_instance;
 
@@ -28,12 +29,16 @@ ActionFactory* ActionFactory::getInstance(){
 } 
 
 uint64_t ActionFactory::getNextInjectionId(){
-	uint64_t n = next_injection_id;
-	if(n == UINT64_MAX){
-		//std::cerr << "Maximum number of fault reached! " << next_injection_id << std::endl;
-		return n;
-	}
-	next_injection_id <<=1;
+//	uint64_t n = next_injection_id;
+//	if(n == UINT64_MAX){
+//		//std::cerr << "Maximum number of fault reached! " << next_injection_id << std::endl;
+//		return n;
+//	}
+//	next_injection_id <<=1;
+//	return n;
+
+	TSGenerator* ts_generator = Configurator::getInstance()->getTSGenerator();
+	uint64_t n = ts_generator->getNextInjectionId(next_injection_id);
 	return n;
 }
 

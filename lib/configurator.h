@@ -3,6 +3,7 @@
 #include <getopt.h>
 #include <string>
 #include <memory>
+#include <ts-generator.h>
 
 static struct option long_options[] = {
 	{"abnf", 1, 0, 'a'},
@@ -20,6 +21,7 @@ static struct option long_options[] = {
 	{"delay", 1, 0, 'D'},
 	{"iface", 1, 0, 'i'},
 	{"listen", 0, 0, 'l'},
+	{"generator", 1, 0, 'g'},
 	{0, 0, 0, 0}
 };
 
@@ -42,6 +44,7 @@ class Configurator{
 		const int&		getTimeout(){ return timeout; };
 		const std::string&	getIface(){return iface;};
 		const bool& getListen(){return listen; };
+		TSGenerator* getTSGenerator(){return ts_generator;};
 		
 	protected:
 		Configurator();
@@ -63,12 +66,13 @@ class Configurator{
 		std::string ip_dst;
 		std::string type_output;
 		int dport;
-      int auto_inject;
+      	int auto_inject;
 		int monitor;
 		int delay;
 		int timeout;
 		std::string iface;
 		bool listen;
+		TSGenerator* ts_generator;
 };
 
 #endif

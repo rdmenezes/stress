@@ -15,7 +15,6 @@
 
 @SET_MAKE@
 
-
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
@@ -35,8 +34,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 bin_PROGRAMS = stress$(EXEEXT)
 subdir = src
-DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(stress_HEADERS) parser.cc parser.h scanner.cc
+DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in parser.cc \
+	parser.h scanner.cc
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -45,7 +44,7 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(stressdir)"
+am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_stress_OBJECTS = parser.$(OBJEXT) scanner.$(OBJEXT) main.$(OBJEXT) \
 	ABNFParser.$(OBJEXT) AnomalyInjector.$(OBJEXT) \
@@ -74,28 +73,6 @@ CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(stress_SOURCES)
 DIST_SOURCES = $(stress_SOURCES)
-am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
-am__vpath_adj = case $$p in \
-    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
-    *) f=$$p;; \
-  esac;
-am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
-am__install_max = 40
-am__nobase_strip_setup = \
-  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
-am__nobase_strip = \
-  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
-am__nobase_list = $(am__nobase_strip_setup); \
-  for p in $$list; do echo "$$p $$p"; done | \
-  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
-  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
-    if (++n[$$2] == $(am__install_max)) \
-      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
-    END { for (dir in files) print dir, files[dir] }'
-am__base_list = \
-  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
-  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-HEADERS = $(stress_HEADERS)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -221,15 +198,14 @@ stress_SOURCES = parser.yy scanner.ll main.cc \
 						output.cc  \
 						txt-output.cc
 
-stress_HEADERS = ABNFParser.h \
-						driver.h \
-                  AnomalyInjector.h \
-                  InjectorPerformer.h \
-						symbol.h \
-						log.h   \
-						output.h   \
-						main.cc
-
+#stress_HEADERS =  ABNFParser.h \
+#						driver.h \
+#                  AnomalyInjector.h \
+#                  InjectorPerformer.h \
+#						symbol.h \
+#						log.h   \
+#						output.h   \
+#						main.cc
 
 #ABNFParser_SOURCES = parser.yy scanner.ll ABNFParser.cc \
 #							driver.cc \
@@ -362,26 +338,6 @@ distclean-compile:
 
 .yy.cc:
 	$(am__skipyacc) $(SHELL) $(YLWRAP) $< y.tab.c $@ y.tab.h $*.h y.output $*.output -- $(YACCCOMPILE)
-install-stressHEADERS: $(stress_HEADERS)
-	@$(NORMAL_INSTALL)
-	test -z "$(stressdir)" || $(MKDIR_P) "$(DESTDIR)$(stressdir)"
-	@list='$(stress_HEADERS)'; test -n "$(stressdir)" || list=; \
-	for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  echo "$$d$$p"; \
-	done | $(am__base_list) | \
-	while read files; do \
-	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(stressdir)'"; \
-	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(stressdir)" || exit $$?; \
-	done
-
-uninstall-stressHEADERS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(stress_HEADERS)'; test -n "$(stressdir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	test -n "$$files" || exit 0; \
-	echo " ( cd '$(DESTDIR)$(stressdir)' && rm -f" $$files ")"; \
-	cd "$(DESTDIR)$(stressdir)" && rm -f $$files
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -468,9 +424,9 @@ distdir: $(DISTFILES)
 check-am: all-am
 check: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) check-am
-all-am: Makefile $(PROGRAMS) $(HEADERS)
+all-am: Makefile $(PROGRAMS)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(stressdir)"; do \
+	for dir in "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: $(BUILT_SOURCES)
@@ -525,7 +481,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-stressHEADERS
+install-data-am:
 
 install-dvi: install-dvi-am
 
@@ -570,7 +526,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS uninstall-stressHEADERS
+uninstall-am: uninstall-binPROGRAMS
 
 .MAKE: all check install install-am install-strip
 
@@ -581,12 +537,11 @@ uninstall-am: uninstall-binPROGRAMS uninstall-stressHEADERS
 	install-data install-data-am install-dvi install-dvi-am \
 	install-exec install-exec-am install-html install-html-am \
 	install-info install-info-am install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-stressHEADERS \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-binPROGRAMS \
-	uninstall-stressHEADERS
+	install-pdf-am install-ps install-ps-am install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
+	uninstall-am uninstall-binPROGRAMS
 
 
 scanner.hh scanner.cc: scanner.ll

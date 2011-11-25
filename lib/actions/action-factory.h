@@ -11,6 +11,7 @@
 #include<command.h>
 #include<include-actions.h>
 
+/*
 # if __WORDSIZE == 64
 #  define __INT64_C(c)  c ## L
 #  define __UINT64_C(c) c ## UL
@@ -22,6 +23,7 @@
 //# define UINT64_MAX             (__UINT64_C(18446744073709551615))
 #define UINT64_MAX             (__UINT64_C(9223372036854775808))
 //#define UINT64_MAX 0x1000000000000000000000000000000000000000000000000000000000000000
+ */
 
 
 class ActionFactory{
