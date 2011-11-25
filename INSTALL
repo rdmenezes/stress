@@ -40,6 +40,18 @@ or if you don't have in your path:
 	
 	/var/lib/gems/1.8/bin/bundle install
 
+At last you have to configure database:
+
+	edit file: config/database.yml with yours configurations and run
+
+	rake db:migrate
+
+ready to rock!
+
 	script/server start
 
 and now you can access it to URI http://localhost:3000
+
+
+
+
