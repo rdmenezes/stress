@@ -14,6 +14,7 @@
 #include <vector>
 #include <fstream>
 #include "actions/send-action.h"
+#include "command-composite.h"
 
 AnomalyInjector::AnomalyInjector() {
     active = false;
@@ -143,7 +144,7 @@ bool AnomalyInjector::writeInjectedTreeToABNF(Composite* t, std::ostringstream& 
 
     std::vector<Composite*>::iterator iter;
     if (t->getSons().size() != 0)
-        ooss << t->getName() << " =";
+        ooss << t->getName()<<"-"<<t->getId() << " =";
     for (iter = t->getSons().begin(); iter != t->getSons().end(); iter++) {
         if (dynamic_cast<OrComposite*> (t) && iter != t->getSons().begin())
             ooss << " / ";
@@ -151,8 +152,10 @@ bool AnomalyInjector::writeInjectedTreeToABNF(Composite* t, std::ostringstream& 
             ooss << " ";
         if (dynamic_cast<StringLeaf*> (*iter))
             ooss << getNodeName4File((*iter));
+		else if(dynamic_cast<CommandComposite*> (*iter))
+			ooss << (*iter)->getName();
         else
-            ooss << (*iter)->getName();
+            ooss << (*iter)->getName()<<"-"<<(*iter)->getId();
     }
     ooss << std::endl;
     for (iter = t->getSons().begin(); iter != t->getSons().end(); iter++) {
