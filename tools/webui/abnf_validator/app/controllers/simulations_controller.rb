@@ -36,7 +36,7 @@ class SimulationsController < ApplicationController
 	def launch_simulation
 		begin
 			raise Exceptions::MissingParameters if (params[:address].length < 1 and params[:server_mode] != "true") or params[:port].length < 1 or params[:output].length < 1
-			raise Exceptions::FileExists if ( File.exist? "results/#{params[:output]}" && params[:overwrite] != "true" )
+			raise Exceptions::FileExists if ( File.exist? "results/#{params[:output]}" and params[:overwrite].to_s != "true" )
 			#raise Exceptions::InvalidIPProvided unless params[:address] =~ /\A(?:25[0-5]|(?:2[0-4]|1\d|[1-9])?\d)(?:\.(?:25[0-5]|(?:2[0-4]|1\d|[1-9])?\d)){3}\z/
 			raise Exceptions::InvalidPortProvided if params[:port].to_i < 1 or params[:port].to_i > 65535
 			raise Exceptions::InvalidTimeoutValueProvided unless is_numeric?(params[:timeout])
@@ -53,7 +53,10 @@ class SimulationsController < ApplicationController
 			
 			if params[:overwrite] == "true"
 				simulation_to_remove = Simulation.find_by_output( params[:output] )
-				del_sim( simulation_to_remove.id, params[:output] )
+				puts "**************************"
+				puts "REMOVE "+simulation_to_remove.inspect
+				puts "**************************"
+				del_sim( simulation_to_remove.id.to_s, params[:output] )
 			end
 
 			File.open("script/temp2", "w") {|f| f.write(params[:abnf])}
@@ -90,14 +93,16 @@ class SimulationsController < ApplicationController
 			session[:messages] = {:type => "err", :msg => "Invalid IP provided!"}
 		rescue Exceptions::InvalidPortProvided
 			session[:messages] = {:type => "err", :msg => "Invalid port provided!"}
-		rescue
-			session[:messages] = {:type => "err", :msg => "Generic error, please contact administrator"}
+		rescue Exceptions => e
+			session[:messages] = {:type => "err", :msg => "Generic error, please contact administrator "}
+			puts e.message  
+			puts e.backtrace.inspect  
 		end
 		render :text => "ok"
 	end
 	
 	def del_sim(id, output)
-			simulation = Simulation.find(params[:id])
+			simulation = Simulation.find(id)
 			output = simulation.output
 			job1 = Bj.table.job.find(:all, :conditions => ["tag = ?", "#{output}"])
 			puts job1.class
@@ -110,8 +115,8 @@ class SimulationsController < ApplicationController
 			if job2.length != 0
 				job2[0].delete
 			end
-			Simulation.delete(params[:id])
-			FileUtils.rm_rf 'results/'+params[:output]
+			Simulation.delete(id)
+			FileUtils.rm_rf 'results/'+output
 	end
 
 

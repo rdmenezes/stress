@@ -9,11 +9,11 @@
 	</tr>
 	<tr>
 		<% 
-			checked = false 
-			checked = true if session[:overwrite] == "true"
+			o_checked = false 
+			o_checked = true if session[:overwrite] == "true"
 		%>
 		<td>Output:</br>
-			Overwrite? <%= check_box_tag 'overwrite' %>
+			Overwrite? <%= check_box_tag 'overwrite', true, o_checked %>
 		</td>
 		<td><%= text_field_tag :output, session[:output] %></td>
 	</tr>
