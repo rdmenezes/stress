@@ -94,12 +94,14 @@ void TestCaseManager::setSonsNumber(uint64_t id, int number){
 int TestCaseManager::getRun(uint64_t id){
 	std::map<uint64_t,InjectState*>::iterator it;
 	int result = 1;
+	TSGenerator* ts_generator = Configurator::getInstance()->getTSGenerator();
 
 	actual_id = id;
 	test_case_state.clear();
 	
 	for(it = observer.begin(); it!=observer.end(); it++){
-		if(id & it->first){
+		//if(id & it->first){
+		if( ts_generator->enable(id, it->first) ){
 			result *= (it->second->getNumSons()-1);
 			it->second->resetState();
 			test_case_state.push_back(it->second);

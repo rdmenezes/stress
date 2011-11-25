@@ -1,4 +1,4 @@
-puppa = a b
-a = "forza"
-b = "parma"
-
+puppa = a b c
+a = "forza" / "merda"
+b = "parma" / "toro" / "cagliari"
+c = "dai" / "su"

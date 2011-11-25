@@ -25,6 +25,7 @@
 #include <inject-action.h>
 #include <abstract-monitor.h>
 #include <state.h>
+#include <ts-generator.h>
 
 class InjectState{
 	public:
@@ -67,8 +68,8 @@ class TestCaseManager
 		uint64_t getId(){return actual_id;};
 		void sendNotificationStartTestCase();
 		void sendNotificationFinishTestCase();
-                void sendNotificationPacketRead();
-                void sendNotificationPacketSent();
+        void sendNotificationPacketRead();
+        void sendNotificationPacketSent();
 		State* getReport();
 		void closeMonitor();
 		void waitTimeout();
