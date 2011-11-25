@@ -13,14 +13,13 @@ class AbnfFile < ActiveRecord::Base
 	end
 	
 	def self.import(upload, library, user_id)
-    name =  upload['datafile'].original_filename
-    content = upload['datafile'].read
+		name =  upload['datafile'].original_filename
+		content = upload['datafile'].read
 		file = AbnfFile.new(:name => name, :library_id => library, :content => content, :creator => user_id, :created_at => Time.now)
 		file.save!
 		AccessRule.create!(:user_id => user_id, :abnf_file_id => file.id, :permissions => "w")
 		return file
-  end
-
+	end
 
 	def self.delete_file(file_id, user_id)
 		raise Exceptions::MissingParameters if file_id.size < 1
