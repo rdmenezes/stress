@@ -1,28 +1,49 @@
-For installing:
+To compile stress:
+
+	apt-get install build-essential bison flex libboost-all-dev
+	./configure
+	make
+	
+if you want to install stress on your system, yuo can run:
+	
+	make install 
+
+and it will copy stress in /usr/bin/ directory
+
+
+
+To use the webui:
 
 run with root permissions:
 
+	apt-get install rubygems libmysqlclient-dev libxml2-dev libxslt1-dev
 	gem install bundler
 
 or in ubuntu run:
 
+	sudo apt-get install rubygems libmysqlclient-dev libxml2-dev libxslt1-dev
 	sudo gem install bundler
-
-Then run:
+	
+you have to execute:
+	
+	cp src/stress tools/webui/abnf_validator/script
+	cd tools/parser/src
+	make
+	cp parserabnf ../../webui/abnf_validator/script
+	cd ../../webui/abnf_validator
+	
+Then run to install all gems for rails webui:
 
 	bundle install
+	
+or if you don't have in your path:
+	
+	/var/lib/gems/1.8/bin/bundle install
+
+	script/server start
+
+and now you can access it to URI http://localhost:3000
 
 
-deb packages
 
-bison 
-flex
-libboost-all-dev
-
-#ruby mysql
-libmysqlclient-dev
-
-#nokogiri
-libxml2-dev
-libxslt1-dev
 
