@@ -9,11 +9,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110922140607) do
+ActiveRecord::Schema.define(:version => 20111125094704) do
 
   create_table "abnf_files", :force => true do |t|
     t.string   "name"
-    t.text     "content"
+    t.text     "content",    :limit => 2147483647
     t.integer  "creator"
     t.integer  "library_id"
     t.datetime "created_at"
