@@ -71,12 +71,19 @@ class SimulationsController < ApplicationController
 			if params[:server_mode] == "true"
 				server = "-l"
 			end
+			tsgenerator = ""
+			if params[:tsgenerator] == "Exponential"
+				tsgenerator = "-g0"
+			elsif params[:tsgenerator] == "Sequential"
+				tsgenerator = "-g1"
+			end
+			
 			simulation = Simulation.new_simulation(nil, session[:username], session[:editor_filename], params[:output])
       
 			## TAG FIELD CONTAINS THE OUTPUT DIRECTORY, IT'S THE FOREIGN KEY TO SIMULATIONS TABLE, SO IF YOU NEED TO USE BJ IN ANOTHER
 			## PART OF THE PROJECT YOU CAN'T USE TAG
       
-			process = Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} -D #{params[:delay]} -t #{params[:timeout]} #{autoinjection} #{monitor} #{server}", :tag => "#{params[:output]}"
+			process = Bj.submit "script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} -D #{params[:delay]} -t #{params[:timeout]} #{autoinjection} #{monitor} #{server} #{tsgenerator}", :tag => "#{params[:output]}"
 			#session[:process_id] = Bj.table.job.find(process[0].id)
 			#session[:output] = params[:output]
 			#f = IO.popen("script/stress -O #{params[:type]} -a script/temp2 -d #{params[:address]} -p #{params[:port]} -o results/#{params[:output]}/#{params[:output]} #{autoinjection}")			
