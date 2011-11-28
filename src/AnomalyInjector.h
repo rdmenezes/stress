@@ -9,7 +9,7 @@
 #define	_ANOMALYINJECTOR_H
 
 #include <string>
-#include <InjectorPerformer.h>
+#include <abstract-injector-performer.h>
 #include <sstream>
 #include <vector>
 
@@ -27,7 +27,7 @@ public:
     
 private:
     std::string outFileName;
-    InjectorPerformer* injector;
+    AbstractInjectorPerformer* injector;
     bool writeInjectedTreeToABNF(Composite*, std::ostringstream&);
     std::string trim(Composite* orig);
     std::string addQuote(std::string s);

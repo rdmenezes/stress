@@ -16,6 +16,8 @@
 #include "actions/send-action.h"
 #include "command-composite.h"
 
+#include "injector-performer-factory.h"
+
 AnomalyInjector::AnomalyInjector() {
     active = false;
 }
@@ -95,8 +97,8 @@ bool AnomalyInjector::write(Composite* root) {
 bool AnomalyInjector::configure(bool strL, std::string fname, bool hexL, bool decL, bool binL) {
 
     outFileName = fname;
-    injector = new InjectorPerformer(strL, hexL, decL, binL);
-
+    //injector = new InjectorPerformer(strL, hexL, decL, binL);
+ 	injector = InjectorPerformerFactory::getInstance()->getPerformer();
 }
 
 void AnomalyInjector::configure(int p) {

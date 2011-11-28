@@ -29,7 +29,11 @@ stress_SOURCES =	parser.yy scanner.ll main.cc \
 						dot-output.cc \
 						xml-output.cc\
 						output.cc  \
-						txt-output.cc
+						txt-output.cc \
+						abstract-injector-performer.h \
+						abstract-injector-performer.cc \
+						injector-performer-factory.h \
+						injector-performer-factory.cc
 #stress_HEADERS =  ABNFParser.h \
 #						driver.h \
 #                  AnomalyInjector.h \
