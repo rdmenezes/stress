@@ -18,61 +18,25 @@
 
 #define VERYLONG_ 512
 
-InjectorPerformer::InjectorPerformer() {
-    anomalyCounter = 0;
-    orCounter = 0;
+InjectorPerformer::InjectorPerformer(): AbstractInjectorPerformer(){}
+
+InjectorPerformer::~InjectorPerformer() {}
+
+Composite* InjectorPerformer::inject(StringLeaf* leaf) {
+//    if (injectStringLeaves) {
+        std::cout << "Injecting StringLeaf" << leaf->getName() << std::endl;
+        return createFaults(leaf);
+//    } else
+//        return (Composite*) leaf->clone();
 }
 
-InjectorPerformer::InjectorPerformer(bool strL, bool hexL, bool decL, bool binL) {
-    injectStringLeaves = strL;
-    injectHexLeaves = hexL;
-    injectDecLeaves = decL;
-    injectBinLeaves = binL;
-    anomalyCounter = 0;
-    orCounter = 0;
-    srand(time(NULL));
-}
-
-InjectorPerformer::InjectorPerformer(const InjectorPerformer& orig) {
-}
-
-InjectorPerformer::~InjectorPerformer() {
-}
-
-Composite* InjectorPerformer::inject(Composite* comp) {
-
-    Composite* c;
-
-    if (dynamic_cast<StringLeaf*> (comp))
-        c = inject(dynamic_cast<StringLeaf*> (comp));
-    else if (dynamic_cast<HexLeaf*> (comp))
-        c = inject(dynamic_cast<HexLeaf*> (comp));
-    else if (dynamic_cast<DecLeaf*> (comp))
-        c = inject(dynamic_cast<DecLeaf*> (comp));
-    else if (dynamic_cast<BinLeaf*> (comp))
-        c = inject(dynamic_cast<BinLeaf*> (comp));
-    else
-        c = comp->clone();
-
-    return c;
-}
-
+/*
 Composite* InjectorPerformer::inject(Leaf* leaf) {
     std::cout << "Injecting Leaf" << leaf->getName() << std::endl;
     return (Composite*) leaf->clone();
 }
 
-Composite* InjectorPerformer::inject(StringLeaf* leaf) {
-
-
-    if (injectStringLeaves) {
-        std::cout << "Injecting StringLeaf" << leaf->getName() << std::endl;
-        return injectStringLeaf(leaf);
-    } else
-        return (Composite*) leaf->clone();
-}
-
-Composite* InjectorPerformer::inject(HexLeaf* leaf) {
+ Composite* InjectorPerformer::inject(HexLeaf* leaf) {
     std::cout << "Injecting HexLeaf" << leaf->getName() << std::endl;
     if (injectHexLeaves) {
         return (Composite*) leaf->clone(); //TODO
@@ -96,31 +60,19 @@ Composite* InjectorPerformer::inject(BinLeaf* leaf) {
     } else
         return (Composite*) leaf->clone();
 }
+*/
 
-Composite* InjectorPerformer::injectStringLeaf(StringLeaf* orig) {
-	if(trim(orig).size() == 0)
-		return orig;
-    CompositeFactory* cfact = new CompositeFactory();
-    std::ostringstream ooss(std::ostringstream::out);
-    ooss << "or" << orCounter;
-
-    Composite* orc = cfact->getOrNode(ooss.str());
-    orCounter++;
-
-    (*orc) << (orig->clone());
-
-
-    (*orc) << stringInjectionMIDDLETERM(orig, cfact, std::string("%x00"));
-    (*orc) << stringInjectionMIDDLETERM(orig, cfact, std::string("%x0a"));
-    (*orc) << stringInjectionMIDDLETERM(orig, cfact, std::string("%x0d"));
-    (*orc) << stringInjectionVERYLONG(orig, cfact, VERYLONG_);
-    (*orc) << stringInjectionNONASCII(orig, cfact);
-    (*orc) << stringInjectionRANDOMFUZZ(orig, cfact);
-    (*orc) << stringInjectionNULLSTRING(orig, cfact);
-
-    delete cfact;
-    return orc;
-
+void InjectorPerformer::addFaults(Leaf* orig, Composite* or_node, CompositeFactory* cfact) {
+	if (!dynamic_cast<StringLeaf*> (orig))
+		return;
+	StringLeaf* sorig = dynamic_cast<StringLeaf*> (orig);
+    (*or_node) << stringInjectionMIDDLETERM(sorig, cfact, std::string("%x00"));
+    (*or_node) << stringInjectionMIDDLETERM(sorig, cfact, std::string("%x0a"));
+    (*or_node) << stringInjectionMIDDLETERM(sorig, cfact, std::string("%x0d"));
+    (*or_node) << stringInjectionVERYLONG(sorig, cfact, VERYLONG_);
+    (*or_node) << stringInjectionNONASCII(sorig, cfact);
+    (*or_node) << stringInjectionRANDOMFUZZ(sorig, cfact);
+    (*or_node) << stringInjectionNULLSTRING(sorig, cfact);
 }
 
 Composite* InjectorPerformer::stringInjectionNONASCII(StringLeaf* orig, CompositeFactory* cf) {
@@ -204,29 +156,4 @@ Composite* InjectorPerformer::stringInjectionNULLSTRING(StringLeaf* orig, Compos
     return anomaly;
 }
 
-std::string InjectorPerformer::generateAnomalyName(Composite* orig) {
 
-    std::ostringstream ostr(std::ostringstream::out);
-
-    std::string origName = trim(orig);
-
-    ostr << "anomaly";
-    ostr << anomalyCounter << "";
-    //ostr << origName;
-
-    anomalyCounter++;
-    return ostr.str();
-}
-
-std::string InjectorPerformer::trim(Composite* orig) {
-    std::string origName = orig->getName();
-    origName = origName.erase(0, (origName.find_first_of("\"") + 1));
-    origName = origName.erase(origName.find_last_of("\\"));
-    return origName;
-}
-
-std::string InjectorPerformer::addQuote(std::string s) {
-    std::ostringstream ooss(std::ostringstream::out);
-    ooss << "\\\"" << s << "\\\"";
-    return ooss.str();
-}

@@ -50,7 +50,9 @@ am_stress_OBJECTS = parser.$(OBJEXT) scanner.$(OBJEXT) main.$(OBJEXT) \
 	ABNFParser.$(OBJEXT) AnomalyInjector.$(OBJEXT) \
 	InjectorPerformer.$(OBJEXT) driver.$(OBJEXT) symbol.$(OBJEXT) \
 	log.$(OBJEXT) dot-output.$(OBJEXT) xml-output.$(OBJEXT) \
-	output.$(OBJEXT) txt-output.$(OBJEXT)
+	output.$(OBJEXT) txt-output.$(OBJEXT) \
+	abstract-injector-performer.$(OBJEXT) \
+	injector-performer-factory.$(OBJEXT)
 stress_OBJECTS = $(am_stress_OBJECTS)
 stress_LDADD = $(LDADD)
 stress_DEPENDENCIES = ../lib/libstress.a ../lib/actions/libactions.a \
@@ -196,7 +198,11 @@ stress_SOURCES = parser.yy scanner.ll main.cc \
 						dot-output.cc \
 						xml-output.cc\
 						output.cc  \
-						txt-output.cc
+						txt-output.cc \
+						abstract-injector-performer.h \
+						abstract-injector-performer.cc \
+						injector-performer-factory.h \
+						injector-performer-factory.cc
 
 #stress_HEADERS =  ABNFParser.h \
 #						driver.h \
@@ -308,8 +314,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ABNFParser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/AnomalyInjector.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/InjectorPerformer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/abstract-injector-performer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dot-output.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/driver.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/injector-performer-factory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/log.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output.Po@am__quote@
