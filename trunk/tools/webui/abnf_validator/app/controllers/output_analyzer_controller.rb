@@ -103,7 +103,7 @@ class OutputAnalyzerController < ApplicationController
 		pos = params[:frames].to_i
 		sims = Simulation.find_all_by_output(@simulation_selected)
 		@simulation = sims.first
-		
+		begin
 		build_rtt_stats
 		build_list_read_frames
 		build_l_distance(pos)
@@ -137,8 +137,14 @@ class OutputAnalyzerController < ApplicationController
 				@normalized_data << normalizer.normalize(n) unless n == nil
 			end
 			puts @normalized_data.inspect
+			@normalized_data.each do |nd|
+				nd.delete_if {|x| x.nan? }
+			end
 			@som = SOM.new(@normalized_data, :nodes => 3, :dimensions => 2+(number_of_read_frame*2))
 			@som.train unless @normalized_data.size <= 1
+		end
+		rescue Exception
+		
 		end
 		render :partial => "som_predictor"
 	end
