@@ -26,6 +26,8 @@ libactions_a_SOURCES = 	action.cc \
 								command.cc \
 								length-command.h \
 								length-command.cc \
+								string-length-command.h \
+								string-length-command.cc \
 								memorize-command.h \
 								memorize-command.cc \
 								skel-command.h \
