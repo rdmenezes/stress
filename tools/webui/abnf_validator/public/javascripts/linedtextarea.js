@@ -9,7 +9,7 @@ window.sync = function(e){
 window.populate = function populate(){
 	var textarea = document.getElementById("lines");
 	var str = '';
-	for(var i=1;i < 999;i++){
+	for(var i=1;i < 99999;i++){
 		str = str + (i +'\r\n');
 	}
 	textarea.value = str;
