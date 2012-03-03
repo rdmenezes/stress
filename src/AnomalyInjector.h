@@ -34,7 +34,6 @@ private:
     std::string getNodeName4File(Composite* orig);
     bool configure(bool strL = true, std::string fname = "/tmp/self.bnf", bool hexL = false, bool decL = false, bool binL = false);
     bool active;
-    
 };
 
 #endif	/* _ANOMALYINJECTOR_H */

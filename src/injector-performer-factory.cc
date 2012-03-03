@@ -36,5 +36,5 @@ AbstractInjectorPerformer* InjectorPerformerFactory::getPerformer(){
 	if(id_performer == 1)
 		return new InjectorPerformer();
 	else
-		exit(1);
+		return NULL;
 };
