@@ -18,16 +18,17 @@ int main(int argc, char* argv[]){
 
 	ABNFParser* abnfparser = new ABNFParser(Configurator::getInstance()->getAbnfFile());
 	result_parsing =	abnfparser->parse();
-	
+
 	Composite* tree = abnfparser->getTree();
 	tree->getAction();
 
 
 	AnomalyInjector* ai = new AnomalyInjector();
-	ai->configure(Configurator::getInstance()->getAutoInject());
+	Configurator* conf = Configurator::getInstance();
+	ai->configure(conf->getAutoInject());
 
 	if(ai->isActive()){
-        std::vector<Composite*> send_actions;
+		std::vector<Composite*> send_actions;
         ai->findSendComposite(tree, send_actions);
         
         std::vector<Composite*>::iterator sendRoot;
@@ -47,7 +48,7 @@ int main(int argc, char* argv[]){
 
 	uint64_t number_injector = 1;
 
-
+	
 	for(uint64_t u64 = 0; u64 < number_injector; u64++){
 		std::cerr << "EXEC "<< u64 ;
 		int num_run = TestCaseManager::getInstance()->getRun(u64);
