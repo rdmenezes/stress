@@ -32,9 +32,11 @@ Action* SkelCommand::clone(){
 
 State* SkelCommand::runAction(Composite* c){
 	// this method implements action
-	State* ret=NULL;
-	std::vector<State*> result = runSonsAction(c);
+	//State* ret=NULL;
+	//std::vector<State*> result = runSonsAction(c);
 
-	*ret << result;
-	return ret;
+	//*ret << result;
+	//return ret;
+
+	return NULL;
 };
