@@ -10,9 +10,6 @@ unless @normalized_data == nil || @normalized_data.size <= 1
 	end
 %>
 
-<% classes.each_index do |id| %>
-Classe <%= id %>: <%= classes[id].inspect %>
-<% end %>
 <br/>
 <% 
 	while classes.index(nil)!= nil
