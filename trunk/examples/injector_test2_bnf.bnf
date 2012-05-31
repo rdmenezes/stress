@@ -1,3 +1,4 @@
-puppa = a b 
+puppa = a a
 a = <%UDP_send%> "forza"
-b = <%UDP_send%> "parma" 
+;b = <%UDP_send%> "parma" 
+

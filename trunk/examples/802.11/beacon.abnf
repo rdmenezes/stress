@@ -1,6 +1,6 @@
 root = packet-1
 
-packet-1 = <read or send> IEEE80211RadiotapCaptureHeader-1 IEEE80211WirelessLAN-1 IEEE80211WirelessLANManagementFrame-1
+packet-1 = <%RAW_send%> IEEE80211RadiotapCaptureHeader-1 IEEE80211WirelessLAN-1 IEEE80211WirelessLANManagementFrame-1
 
 IEEE80211RadiotapCaptureHeader-1 =  HeaderRevision-1 HeaderPad-1 HeaderLength-1 PresentFlags-1 Flags-1 DataRate-1 ChannelFrequency-1 ChannelType-1 SSISignalDBm-1 Antenna-1 RXFlags-1
 
@@ -26,9 +26,9 @@ Antenna-1 =  %x01
 
 RXFlags-1 =  %x0000
 
-IEEE80211WirelessLAN-1 =  Type/Subtype-1 FrameControlField-1 Duration-1 DestinationAddress-1 SourceAddress-1 BSSId-1 FragmentNumber-1 SequenceNumber-1
+IEEE80211WirelessLAN-1 =  TypeSubtype-1 FrameControlField-1 Duration-1 DestinationAddress-1 SourceAddress-1 BSSId-1 FragmentNumber-1 SequenceNumber-1
 
-Type/Subtype-1 =  %x08
+TypeSubtype-1 =  %x08
 
 FrameControlField-1 =  %x0080 ;Frame Control: 0x0080 (Normal)
 

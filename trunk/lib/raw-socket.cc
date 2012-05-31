@@ -12,6 +12,7 @@
 #include<net/ethernet.h>
 
 #include <raw-socket.h>
+#include <configurator.h>
 
 int read_wrapper(int i, void* cpp, int l){
 	return read(i, cpp, l);
@@ -26,7 +27,7 @@ RawSocket::RawSocket():sock(0){
 	int n=0;
 
 	//vars initialization
-	iface = "mon0";
+	iface = Configurator::getInstance()->getIface();
 	memset(&saddr, 0, sizeof(saddr));
 	memset(&ifr, 0, sizeof(ifr));
 	sock = socket(PF_PACKET, SOCK_RAW,htons(ETH_P_ALL));
